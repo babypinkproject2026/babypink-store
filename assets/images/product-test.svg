@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0c1b"/>
+      <stop offset="50%" stop-color="#1b1226"/>
+      <stop offset="100%" stop-color="#2a1435"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1833"/>
+      <stop offset="100%" stop-color="#2f1d47"/>
+    </linearGradient>
+    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff2a85"/>
+      <stop offset="100%" stop-color="#ff73b3"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6d365"/>
+      <stop offset="100%" stop-color="#fda085"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+
+  <!-- Decorative Background Circles -->
+  <circle cx="120" cy="120" r="160" fill="#ff2a85" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="500" cy="480" r="180" fill="#a855f7" opacity="0.08" filter="url(#glow)"/>
+
+  <!-- Main Card Container -->
+  <rect x="50" y="50" width="500" height="500" rx="28" fill="url(#cardGrad)" stroke="#ff2a85" stroke-width="2.5" stroke-dasharray="none"/>
+  
+  <!-- Subtle inner border -->
+  <rect x="65" y="65" width="470" height="470" rx="20" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.1"/>
+
+  <!-- Top Badge: PromptPay Official Color Scheme / Tag -->
+  <rect x="180" y="85" width="240" height="44" rx="22" fill="#001a33" stroke="#00b4d8" stroke-width="1.5"/>
+  <text x="300" y="113" font-family="'Kanit', 'Noto Sans Thai', sans-serif" font-size="18" font-weight="600" fill="#00e5ff" text-anchor="middle">
+    PROMPTPAY TEST
+  </text>
+
+  <!-- Center QR Graphic Frame -->
+  <rect x="195" y="155" width="210" height="210" rx="20" fill="#ffffff" filter="url(#glow)"/>
+  
+  <!-- QR Mini Elements Representation -->
+  <!-- Top-Left Corner Box -->
+  <rect x="220" y="180" width="45" height="45" rx="6" fill="#001a33"/>
+  <rect x="229" y="189" width="27" height="27" rx="3" fill="#ffffff"/>
+  <rect x="235" y="195" width="15" height="15" rx="2" fill="#ff2a85"/>
+
+  <!-- Top-Right Corner Box -->
+  <rect x="335" y="180" width="45" height="45" rx="6" fill="#001a33"/>
+  <rect x="344" y="189" width="27" height="27" rx="3" fill="#ffffff"/>
+  <rect x="350" y="195" width="15" height="15" rx="2" fill="#ff2a85"/>
+
+  <!-- Bottom-Left Corner Box -->
+  <rect x="220" y="295" width="45" height="45" rx="6" fill="#001a33"/>
+  <rect x="229" y="304" width="27" height="27" rx="3" fill="#ffffff"/>
+  <rect x="235" y="310" width="15" height="15" rx="2" fill="#ff2a85"/>
+
+  <!-- Center QR Decorative Data Pattern -->
+  <rect x="285" y="180" width="15" height="30" rx="2" fill="#001a33"/>
+  <rect x="285" y="230" width="30" height="15" rx="2" fill="#ff2a85"/>
+  <rect x="335" y="240" width="25" height="25" rx="4" fill="#001a33"/>
+  <rect x="280" y="260" width="40" height="40" rx="6" fill="#ff2a85"/>
+  <rect x="292" y="272" width="16" height="16" rx="3" fill="#ffffff"/>
+  <rect x="340" y="295" width="20" height="45" rx="2" fill="#001a33"/>
+  <rect x="285" y="325" width="35" height="15" rx="2" fill="#001a33"/>
+
+  <!-- Center Heart / Baby Cart Icon Overlay on QR -->
+  <circle cx="300" cy="260" r="24" fill="#ffffff" stroke="#ff2a85" stroke-width="2.5"/>
+  <path d="M300 270 C290 262 284 254 288 248 C291 243 297 244 300 249 C303 244 309 243 312 248 C316 254 310 262 300 270 Z" fill="#ff2a85"/>
+
+  <!-- Title: เทสระบบชำระเงิน -->
+  <text x="300" y="415" font-family="'Kanit', 'Noto Sans Thai', sans-serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">
+    เทสระบบชำระเงิน
+  </text>
+
+  <!-- Big Glowing Price: ฿ 1.00 -->
+  <g filter="url(#glow)">
+    <text x="300" y="465" font-family="'Kanit', 'Noto Sans Thai', sans-serif" font-size="44" font-weight="800" fill="#ff2a85" text-anchor="middle">
+      ฿ 1.00
+    </text>
+  </g>
+
+  <!-- Subtitle note -->
+  <rect x="150" y="490" width="300" height="34" rx="17" fill="#ffffff" fill-opacity="0.08"/>
+  <text x="300" y="513" font-family="'Kanit', 'Noto Sans Thai', sans-serif" font-size="15" font-weight="500" fill="#fbcfe8" text-anchor="middle">
+    ⚡ โอนทดสอบระบบพร้อมเพย์จริง 1 บาท
+  </text>
+</svg>

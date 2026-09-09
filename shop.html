@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แคตตาล็อกสินค้าทั้งหมด (18 รายการ) | BabyPink Store</title>
+  <meta name="description" content="ร้านเสื้อผ้าเด็กคุณภาพพรีเมียม นุ่มสบาย อ่อนโยนต่อผิวลูกน้อย รองรับชำระเงินผ่าน QR พร้อมเพย์สแกนจ่ายได้จริง" />
+
+  <!-- Google Fonts: Prompt & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =========================================================================
+       Site Header
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-crown" style="color: #ffffff;"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Baby<span>Pink</span>.</h1>
+          <p>Kids & Newborn Boutique</p>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+        <a href="shop.html" class="nav-link active"><i class="fa-solid fa-shirt"></i> สินค้าทั้งหมด</a>
+        <a href="feedback.html" class="nav-link"><i class="fa-solid fa-star"></i> รีวิวลูกค้า</a>
+        <a href="contact.html" class="nav-link"><i class="fa-solid fa-location-dot"></i> หน้าร้าน & ติดต่อ</a>
+      </nav>
+
+      <!-- Search Bar (Desktop) -->
+      <div class="header-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="headerSearchInput" placeholder="ค้นหาชุดเด็ก รอมเปอร์ เดรส ไหมพรม..." />
+      </div>
+
+      <!-- Actions (Theme Toggle, Auth, Cart) -->
+      <div class="header-actions">
+        <!-- Dark / Light Theme Toggle Switch -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="สลับ Dark / Light Mode">
+          <i class="fa-solid fa-sun icon-sun" style="color: #ffb703;"></i>
+          <i class="fa-solid fa-moon icon-moon" style="color: var(--pink-primary);"></i>
+          <span id="themeLabel">Dark Mode</span>
+        </button>
+
+        <!-- Google User Profile / Login -->
+        <button class="user-btn" onclick="openAuthModal()" id="userBtn" title="เข้าสู่ระบบด้วย Google">
+          <img id="userAvatar" class="user-avatar" src="" alt="Avatar" style="display: none;" />
+          <i class="fa-solid fa-user" id="userIcon"></i>
+          <span id="userText">เข้าสู่ระบบ</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="action-btn" onclick="toggleCartDrawer(true)" title="เปิดตะกร้าสินค้า">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Sub Navigation Bar -->
+    <div class="mobile-nav-bar">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+      <a href="shop.html" class="nav-link active"><i class="fa-solid fa-shirt"></i> สินค้าทั้งหมด</a>
+      <a href="feedback.html" class="nav-link"><i class="fa-solid fa-star"></i> รีวิวลูกค้า</a>
+      <a href="contact.html" class="nav-link"><i class="fa-solid fa-location-dot"></i> หน้าร้าน & ติดต่อ</a>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       Main Content
+       ========================================================================= -->
+  <main class="container">
+
+    <!-- Shop Banner -->
+    <section class="hero-section" style="padding-bottom: 10px;">
+      <div class="hero-banner" style="padding: 36px 30px;">
+        <div class="hero-glow-circle"></div>
+        <div class="hero-tag">
+          <i class="fa-solid fa-bag-shopping"></i> BABYPINK CATALOG 2026
+        </div>
+        <div class="hero-content">
+          <h2 style="font-size: 1.8rem; margin-bottom: 8px;">แคตตาล็อกเสื้อผ้าเด็ก <span class="highlight">คอลเลกชันครบครัน</span></h2>
+          <p>รวมชุดเด็กแรกเกิด - 4 ขวบ ผ้าคอตตอนออร์แกนิก 100% ปลอดภัย นุ่มละมุน พร้อมสินค้าทดสอบระบบชำระเงิน 1 บาท</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop Controls (Category Filter & Sort) -->
+    <section class="shop-controls" id="shopSection">
+      <!-- Category Filter Pills -->
+      <div class="category-scroll">
+        <button class="cat-pill active" onclick="setCategory('all', this)">
+          <i class="fa-solid fa-border-all"></i> ทั้งหมด
+        </button>
+        <button class="cat-pill" onclick="setCategory('test', this)" style="border-color: var(--pink-primary); color: var(--pink-primary);">
+          <i class="fa-solid fa-flask-vial"></i> เทสระบบชำระเงิน (1฿)
+        </button>
+        <button class="cat-pill" onclick="setCategory('romper', this)">
+          <i class="fa-solid fa-baby"></i> ชุดรอมเปอร์
+        </button>
+        <button class="cat-pill" onclick="setCategory('bodysuit', this)">
+          <i class="fa-solid fa-shirt"></i> บอดี้สูท
+        </button>
+        <button class="cat-pill" onclick="setCategory('sets', this)">
+          <i class="fa-solid fa-cubes"></i> ชุดเซ็ต
+        </button>
+        <button class="cat-pill" onclick="setCategory('dress', this)">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> ชุดเดรส
+        </button>
+        <button class="cat-pill" onclick="setCategory('dungarees', this)">
+          <i class="fa-solid fa-vest"></i> ชุดเอี๊ยม
+        </button>
+        <button class="cat-pill" onclick="setCategory('knitwear', this)">
+          <i class="fa-solid fa-mitten"></i> เสื้อหนาว/ไหมพรม
+        </button>
+        <button class="cat-pill" onclick="setCategory('sleepwear', this)">
+          <i class="fa-solid fa-moon"></i> ชุดนอน
+        </button>
+        <button class="cat-pill" onclick="setCategory('swimwear', this)">
+          <i class="fa-solid fa-water"></i> ชุดว่ายน้ำ
+        </button>
+      </div>
+
+      <!-- Count & Sort Bar -->
+      <div class="filter-sub-bar">
+        <div class="products-count" id="productsCount">
+          แสดงทั้งหมด <strong>18</strong> รายการ
+        </div>
+
+        <div class="sort-select-wrapper">
+          <label for="sortSelect"><i class="fa-solid fa-arrow-down-short-wide"></i> เรียงตาม:</label>
+          <select id="sortSelect" class="sort-select">
+            <option value="default">รายการแนะนำ</option>
+            <option value="popular">ยอดนิยมสูงสุด</option>
+            <option value="rating">คะแนนรีวิวสูงสุด</option>
+            <option value="price-low">ราคา: ต่ำไปสูง</option>
+            <option value="price-high">ราคา: สูงไปต่ำ</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Grid (18 Products with Pink Borders & Glow) -->
+    <section class="products-section">
+      <div class="products-grid" id="productsGrid">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       Slide-over Cart Drawer
+       ========================================================================= -->
+  <div class="cart-drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer(false)"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3><i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i> ตะกร้าสินค้าของคุณ</h3>
+      <button class="close-drawer-btn" onclick="toggleCartDrawer(false)">&times;</button>
+    </div>
+
+    <div class="cart-body" id="cartBody">
+      <!-- Dynamic cart items rendered here -->
+    </div>
+
+    <div class="cart-footer">
+      <!-- Coupon Code Input -->
+      <div class="coupon-box">
+        <input type="text" id="couponInput" placeholder="กรอกรหัสส่วนลด (เช่น BABYPINK10)" />
+        <button type="button" onclick="applyCoupon()">ใช้โค้ด</button>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="cart-summary-row">
+        <span>ยอดรวมสินค้า</span>
+        <span id="cartSubtotal">฿0</span>
+      </div>
+      <div class="cart-summary-row" style="color: var(--pink-secondary);">
+        <span>ส่วนลดคูปอง</span>
+        <span id="cartDiscount">-฿0</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>ค่าจัดส่ง</span>
+        <span id="cartShipping">฿0</span>
+      </div>
+      <div class="cart-summary-row total">
+        <span>ยอดชำระสุทธิ</span>
+        <span id="cartGrandTotal">฿0</span>
+      </div>
+
+      <!-- Checkout Button -->
+      <button class="checkout-btn" id="checkoutBtn" onclick="openPromptPayCheckout()">
+        <i class="fa-solid fa-qrcode"></i> ชำระเงินด้วย QR พร้อมเพย์
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       Quick View Modal
+       ========================================================================= -->
+  <div class="modal-backdrop" id="quickViewModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeModal('quickViewModal')">&times;</button>
+      <div id="quickViewContent">
+        <!-- Filled by openQuickView() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       PROMPTPAY REAL QR PAYMENT MODAL (สแกนจ่ายได้จริง)
+       ========================================================================= -->
+  <div class="modal-backdrop" id="promptpayModal">
+    <div class="modal-box promptpay-modal-box">
+      <button class="modal-close-btn" onclick="closeModal('promptpayModal')">&times;</button>
+
+      <!-- Official PromptPay Header Badge -->
+      <div class="promptpay-badge-header">
+        <i class="fa-solid fa-qrcode"></i>
+        <span>PromptPay พร้อมเพย์</span>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        สแกน QR Code ด้วยแอปพลิเคชันธนาคารใดก็ได้ เพื่อชำระเงิน
+      </p>
+
+      <!-- Dynamic Amount -->
+      <div class="payment-amount-display" id="promptpayAmount">฿ 0.00</div>
+
+      <!-- PromptPay Recipient Target -->
+      <div class="payment-recipient-display" id="promptpayRecipient">
+        โอนเข้าบัญชีพร้อมเพย์: <strong>093-758-6699</strong>
+      </div>
+
+      <!-- Canvas QR Code Frame with Pink Border -->
+      <div class="qr-frame-wrapper">
+        <canvas id="promptpayQrCanvas"></canvas>
+      </div>
+
+      <!-- Timer -->
+      <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+        <i class="fa-regular fa-clock" style="color: var(--pink-primary);"></i> รหัส QR จะหมดอายุภายใน: 
+        <strong id="promptpayTimer" style="color: var(--pink-secondary); font-family: monospace;">15:00</strong>
+      </div>
+
+      <!-- Customer Checkout Details Form -->
+      <div style="text-align: left; margin: 16px 0; display: flex; flex-direction: column; gap: 10px;">
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-secondary); font-weight: 600;">ชื่อ-นามสกุล ผู้รับ:</label>
+          <input type="text" id="customerNameInput" placeholder="ระบุชื่อผู้รับ" style="width: 100%; padding: 8px 12px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.88rem; outline: none;" value="คุณแม่น้องฟ้าใส" />
+        </div>
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-secondary); font-weight: 600;">เบอร์โทรศัพท์ติดต่อ:</label>
+          <input type="tel" id="customerPhoneInput" placeholder="08x-xxx-xxxx" style="width: 100%; padding: 8px 12px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.88rem; outline: none;" value="0899999999" />
+        </div>
+        <div>
+          <label style="font-size: 0.82rem; color: var(--text-secondary); font-weight: 600;">ที่อยู่จัดส่งพัสดุ:</label>
+          <textarea id="customerAddressInput" rows="2" placeholder="บ้านเลขที่ ถนน แขวง/ตำบล เขต/อำเภอ จังหวัด รหัสไปรษณีย์" style="width: 100%; padding: 8px 12px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.88rem; outline: none; resize: none;">123/45 ถนนสุขุมวิท แขวงคลองเตย เขตคลองเตย กรุงเทพฯ 10110</textarea>
+        </div>
+      </div>
+
+      <!-- Slip Upload Box -->
+      <div class="slip-upload-zone" onclick="document.getElementById('slipFileInput').click()">
+        <input type="file" id="slipFileInput" accept="image/*" onchange="handleSlipUpload(event)" />
+        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--pink-primary); margin-bottom: 6px;"></i>
+        <p id="slipUploadText" style="font-size: 0.85rem; color: var(--text-secondary);">คลิกเพื่อแนบสลิปหลักฐานการโอนเงิน</p>
+        <img id="slipPreview" class="slip-preview-img" alt="Slip Preview" />
+      </div>
+
+      <!-- Confirm Payment Button -->
+      <button class="btn-primary" style="width: 100%; justify-content: center; padding: 13px;" onclick="confirmPayment()">
+        <i class="fa-solid fa-check-circle"></i> ยืนยันการโอนเงินและส่งคำสั่งซื้อ
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Order Success Modal
+       ========================================================================= -->
+  <div class="modal-backdrop" id="orderSuccessModal">
+    <div class="modal-box" style="max-width: 460px; padding: 36px 28px; text-align: center;">
+      <div style="width: 72px; height: 72px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);">
+        <i class="fa-solid fa-check" style="font-size: 2.2rem; color: #ffffff;"></i>
+      </div>
+      <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 6px;">สั่งซื้อสำเร็จแล้ว!</h3>
+      <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 18px;">
+        ระบบได้บันทึกคำสั่งซื้อและส่งข้อมูลไปยัง Google Sheets เรียบร้อยแล้ว สินค้าจะจัดเตรียมและจัดส่งภายใน 24 ชม.
+      </p>
+
+      <div style="background: var(--bg-input); border-radius: var(--radius-md); padding: 14px; text-align: left; font-size: 0.85rem; margin-bottom: 20px; border: 1px solid var(--border-subtle);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: var(--text-muted);">รหัสคำสั่งซื้อ:</span>
+          <strong id="successOrderId" style="color: var(--pink-primary); font-family: monospace;">ORD-XXXXXX</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: var(--text-muted);">ยอดชำระ:</span>
+          <strong id="successOrderAmount">฿0</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: var(--text-muted);">สถานะ:</span>
+          <span style="color: #10b981; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> ชำระเงินเรียบร้อย</span>
+        </div>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); color: var(--text-muted); font-size: 0.8rem; white-space: pre-line;" id="successOrderAddress">
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="closeModal('orderSuccessModal')">
+        กลับไปเลือกดูสินค้าต่อ
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Google & Supabase Auth Modal
+       ========================================================================= -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-box" style="max-width: 420px; padding: 32px 28px; text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('authModal')">&times;</button>
+      
+      <div style="font-size: 2.5rem; color: var(--pink-primary); margin-bottom: 12px;">
+        <i class="fa-solid fa-shield-heart"></i>
+      </div>
+      <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px;">เข้าสู่ระบบสมาชิก</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">
+        เข้าสู่ระบบด้วย Google เพื่อสะสมแต้ม ติดตามสถานะพัสดุ และรับส่วนลดพิเศษ
+      </p>
+
+      <!-- Google Login Button -->
+      <button onclick="handleGoogleLogin()" style="width: 100%; padding: 12px; background: #ffffff; color: #1f2937; border: 1px solid #e5e7eb; border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        เข้าสู่ระบบด้วย Google
+      </button>
+
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 16px;">
+        *เชื่อมต่อผ่าน Supabase Authentication ปลอดภัยตามมาตรฐานสากล*
+      </p>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       User Profile Modal (เมื่อล็อกอินแล้ว)
+       ========================================================================= -->
+  <div class="modal-backdrop" id="userProfileModal">
+    <div class="modal-box" style="max-width: 420px; padding: 32px 28px; text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('userProfileModal')">&times;</button>
+      
+      <img id="profileUserAvatar" src="" alt="Avatar" style="width: 72px; height: 72px; border-radius: 50%; border: 3px solid var(--pink-primary); margin: 0 auto 12px; object-fit: cover;" />
+      <h3 id="profileUserName" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">User Name</h3>
+      <p id="profileUserEmail" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">user@example.com</p>
+
+      <div style="background: var(--bg-input); border-radius: var(--radius-md); padding: 14px; text-align: left; font-size: 0.85rem; margin-bottom: 20px; border: 1px solid var(--border-subtle);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span>สิทธิ์สมาชิก:</span>
+          <span style="color: var(--pink-secondary); font-weight: 600;"><i class="fa-solid fa-crown"></i> VIP Member</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>คะแนนสะสม:</span>
+          <strong style="color: var(--pink-primary);">250 แต้ม</strong>
+        </div>
+      </div>
+
+      <button class="btn-secondary" style="width: 100%; justify-content: center; color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="handleLogout()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Toast Notification Container
+       ========================================================================= -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- =========================================================================
+       Footer
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom: 14px;">
+            <div class="brand-icon">
+              <i class="fa-solid fa-crown" style="color: #ffffff;"></i>
+            </div>
+            <div class="brand-text">
+              <h1>Baby<span>Pink</span>.</h1>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+            ร้านขายเสื้อผ้าเด็กออนไลน์ที่ใส่ใจทุกรายละเอียด คัดสรรเนื้อผ้าออร์แกนิกสัมผัสนุ่ม อ่อนโยนต่อผิวลูกน้อย พร้อมระบบชำระเงินที่ง่ายและปลอดภัย
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>เมนูนำทาง</h4>
+          <ul>
+            <li><a href="index.html">หน้าแรก (Home)</a></li>
+            <li><a href="shop.html">แคตตาล็อกสินค้าทั้งหมด (Shop)</a></li>
+            <li><a href="feedback.html">รีวิวจากลูกค้า (Reviews)</a></li>
+            <li><a href="contact.html">หน้าร้านจริง & ติดต่อเรา (Contact)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>การชำระเงิน & ความปลอดภัย</h4>
+          <ul>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-qrcode" style="color: var(--pink-primary); margin-right: 6px;"></i> QR พร้อมเพย์ (093-758-6699)</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-table" style="color: #10b981; margin-right: 6px;"></i> เชื่อมต่อ Google Sheets อัตโนมัติ</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-brands fa-google" style="color: #4285F4; margin-right: 6px;"></i> Google OAuth Login</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-database" style="color: #a855f7; margin-right: 6px;"></i> Supabase Cloud Database</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>หน้าร้านจริง & ติดต่อเรา</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-store" style="color: var(--pink-primary); margin-right: 6px;"></i> แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station
+          </p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-phone" style="color: var(--pink-primary); margin-right: 6px;"></i> 093-758-6699
+          </p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-clock" style="color: var(--pink-primary); margin-right: 6px;"></i> เปิดทุกวัน 10:00 - 21:00 น.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 BabyPink Store. All Rights Reserved. ออกแบบและพัฒนาด้วย HTML5, CSS3, Vanilla JS, Google Sheets & PromptPay EMVCo</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       Scripts
+       ========================================================================= -->
+  <script src="supabase-config.js"></script>
+  <script src="promptpay.js"></script>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

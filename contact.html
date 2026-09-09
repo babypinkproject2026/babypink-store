@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>หน้าร้านจริง & ติดต่อเรา | แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station - BabyPink</title>
+  <meta name="description" content="แวะชมและสัมผัสเนื้อผ้าจริงได้ที่หน้าร้าน BabyPink แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station โทร 093-758-6699" />
+
+  <!-- Google Fonts: Prompt & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =========================================================================
+       Site Header
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-crown" style="color: #ffffff;"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Baby<span>Pink</span>.</h1>
+          <p>Kids & Newborn Boutique</p>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+        <a href="shop.html" class="nav-link"><i class="fa-solid fa-shirt"></i> สินค้าทั้งหมด</a>
+        <a href="feedback.html" class="nav-link"><i class="fa-solid fa-star"></i> รีวิวลูกค้า</a>
+        <a href="contact.html" class="nav-link active"><i class="fa-solid fa-location-dot"></i> หน้าร้าน & ติดต่อ</a>
+      </nav>
+
+      <!-- Actions (Theme Toggle, Auth, Cart) -->
+      <div class="header-actions">
+        <!-- Dark / Light Theme Toggle Switch -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="สลับ Dark / Light Mode">
+          <i class="fa-solid fa-sun icon-sun" style="color: #ffb703;"></i>
+          <i class="fa-solid fa-moon icon-moon" style="color: var(--pink-primary);"></i>
+          <span id="themeLabel">Dark Mode</span>
+        </button>
+
+        <!-- Google User Profile / Login -->
+        <button class="user-btn" onclick="openAuthModal()" id="userBtn" title="เข้าสู่ระบบด้วย Google">
+          <img id="userAvatar" class="user-avatar" src="" alt="Avatar" style="display: none;" />
+          <i class="fa-solid fa-user" id="userIcon"></i>
+          <span id="userText">เข้าสู่ระบบ</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="action-btn" onclick="toggleCartDrawer(true)" title="เปิดตะกร้าสินค้า">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Sub Navigation Bar -->
+    <div class="mobile-nav-bar">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+      <a href="shop.html" class="nav-link"><i class="fa-solid fa-shirt"></i> สินค้าทั้งหมด</a>
+      <a href="feedback.html" class="nav-link"><i class="fa-solid fa-star"></i> รีวิวลูกค้า</a>
+      <a href="contact.html" class="nav-link active"><i class="fa-solid fa-location-dot"></i> หน้าร้าน & ติดต่อ</a>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       Contact Main Content
+       ========================================================================= -->
+  <main class="container">
+
+    <!-- Contact Hero -->
+    <section class="contact-hero">
+      <div class="section-header-badge">
+        <i class="fa-solid fa-store"></i> VISIT OUR BOUTIQUE STORE
+      </div>
+      <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 12px;">
+        แวะมาสัมผัสเนื้อผ้าจริงได้ที่ <span style="color: var(--pink-primary);">BabyPink หน้าร้าน</span>
+      </h2>
+      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto; font-size: 1rem;">
+        ยินดีต้อนรับคุณพ่อคุณแม่ทุกท่าน หน้าร้านตั้งอยู่ที่ห้างสรรพสินค้าแฟชั่นไอส์แลนด์ มีสินค้าให้ลองเทียบไซส์และสัมผัสความนุ่มของผ้าคอตตอนออร์แกนิกได้ครบทุกรุ่น
+      </p>
+    </section>
+
+    <!-- Contact Grid Details -->
+    <div class="contact-grid">
+      <!-- Left: Store Location & Info Cards -->
+      <div class="contact-info-card">
+        <h3 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--pink-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-circle-info"></i> ข้อมูลที่ตั้งและการติดต่อ
+        </h3>
+
+        <!-- Location Item -->
+        <div class="info-item">
+          <div class="info-icon-box">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div class="info-content">
+            <h4>พิกัดหน้าร้าน</h4>
+            <p style="font-weight: 600; color: var(--text-primary); font-size: 1.05rem;">
+              แฟชั่นไอส์แลนด์ (Fashion Island) ชั้น 2 โซน Grand Station
+            </p>
+            <p>ถ.รามอินทรา แขวงคันนายาว เขตคันนายาว กรุงเทพมหานคร 10230</p>
+          </div>
+        </div>
+
+        <!-- Phone Item -->
+        <div class="info-item">
+          <div class="info-icon-box">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <div class="info-content">
+            <h4>เบอร์โทรศัพท์ติดต่อหน้าร้าน</h4>
+            <p style="font-size: 1.2rem; font-weight: 700; color: var(--pink-primary); font-family: monospace;">
+              093-758-6699
+            </p>
+            <p>ยินดีตอบทุกคำถาม สอบถามสต็อกสินค้า หรือปรึกษาเรื่องไซส์เสื้อผ้าเด็ก</p>
+            <a href="tel:0937586699" class="btn-primary" style="margin-top: 10px; width: fit-content; padding: 8px 18px; font-size: 0.85rem;">
+              <i class="fa-solid fa-phone-volume"></i> โทรติดต่อทันที
+            </a>
+          </div>
+        </div>
+
+        <!-- Hours Item -->
+        <div class="info-item">
+          <div class="info-icon-box">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div class="info-content">
+            <h4>เวลาเปิด-ปิดทำการ</h4>
+            <p style="color: var(--text-primary); font-weight: 600;">
+              เปิดให้บริการทุกวัน (จันทร์ - อาทิตย์)
+            </p>
+            <p>ตั้งแต่เวลา <strong>10:00 น. - 21:00 น.</strong></p>
+          </div>
+        </div>
+
+        <!-- Transportation Item -->
+        <div class="info-item">
+          <div class="info-icon-box">
+            <i class="fa-solid fa-train"></i>
+          </div>
+          <div class="info-content">
+            <h4>การเดินทางสะดวกสบาย</h4>
+            <p>
+              🚝 <strong>รถไฟฟ้าสายสีชมพู:</strong> ลงที่ <em>สถานีวงแหวนรามอินทรา (PK25)</em> มีทางเชื่อม Skywalk เดินเข้าศูนย์การค้าแฟชั่นไอส์แลนด์ได้โดยตรง<br/>
+              🚗 <strong>รถยนต์ส่วนตัว:</strong> มีอาคารจอดรถกว้างขวาง จอดฟรี 4 ชั่วโมงแรก
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Direct Message Form & Social Channels -->
+      <div class="contact-form-card">
+        <h3 style="font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-envelope-open-text" style="color: var(--pink-primary);"></i> ส่งข้อความถึงร้านค้า
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 22px;">
+          มีคำถามเกี่ยวกับสินค้า แจ้งปัญหา หรือสอบถามเพิ่มเติม กรอกฟอร์มด้านล่างได้เลยครับ
+        </p>
+
+        <form id="contactForm" onsubmit="event.preventDefault(); showToast('💌 ส่งข้อความเรียบร้อย! เจ้าหน้าที่จะติดต่อกลับโดยเร็วครับ'); this.reset();">
+          <div class="form-group">
+            <label for="contactName">ชื่อของคุณพ่อ/คุณแม่:</label>
+            <input type="text" id="contactName" required placeholder="ระบุชื่อของคุณ" />
+          </div>
+
+          <div class="form-group">
+            <label for="contactPhone">เบอร์โทรศัพท์ติดต่อกลับ:</label>
+            <input type="tel" id="contactPhone" required placeholder="08x-xxx-xxxx" />
+          </div>
+
+          <div class="form-group">
+            <label for="contactTopic">เรื่องที่ต้องการสอบถาม:</label>
+            <input type="text" id="contactTopic" placeholder="เช่น สอบถามไซส์ชุดเด็กอ่อน, เช็คสต็อกหน้าร้าน" />
+          </div>
+
+          <div class="form-group">
+            <label for="contactMsg">รายละเอียดข้อความ:</label>
+            <textarea id="contactMsg" rows="4" required placeholder="พิมพ์ข้อความของคุณที่นี่..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px;">
+            <i class="fa-solid fa-paper-plane"></i> ส่งข้อความทันที
+          </button>
+        </form>
+
+        <!-- Social Channels -->
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border-subtle); text-align: center;">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">หรือติดต่อผ่านช่องทางโซเชียลมีเดีย:</p>
+          <div style="display: flex; justify-content: center; gap: 14px;">
+            <a href="tel:0937586699" style="width: 44px; height: 44px; border-radius: 50%; background: var(--pink-light); color: var(--pink-primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid var(--pink-border);" title="โทร 093-758-6699">
+              <i class="fa-solid fa-phone"></i>
+            </a>
+            <a href="#" onclick="showToast('💬 Line Official: @babypink-shop')" style="width: 44px; height: 44px; border-radius: 50%; background: #06c75520; color: #06c755; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid #06c75550;" title="LINE Official">
+              <i class="fa-brands fa-line"></i>
+            </a>
+            <a href="#" onclick="showToast('📘 Facebook: BabyPink Store เสื้อผ้าเด็กพรีเมียม')" style="width: 44px; height: 44px; border-radius: 50%; background: #1877f220; color: #1877f2; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid #1877f250;" title="Facebook Page">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#" onclick="showToast('📸 Instagram: @babypink_thailand')" style="width: 44px; height: 44px; border-radius: 50%; background: #e1306c20; color: #e1306c; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid #e1306c50;" title="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       Slide-over Cart Drawer
+       ========================================================================= -->
+  <div class="cart-drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer(false)"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3><i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i> ตะกร้าสินค้าของคุณ</h3>
+      <button class="close-drawer-btn" onclick="toggleCartDrawer(false)">&times;</button>
+    </div>
+
+    <div class="cart-body" id="cartBody">
+      <!-- Dynamic cart items rendered here -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-summary-row">
+        <span>ยอดรวมสินค้า</span>
+        <span id="cartSubtotal">฿0</span>
+      </div>
+      <div class="cart-summary-row" style="color: var(--pink-secondary);">
+        <span>ส่วนลดคูปอง</span>
+        <span id="cartDiscount">-฿0</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>ค่าจัดส่ง</span>
+        <span id="cartShipping">฿0</span>
+      </div>
+      <div class="cart-summary-row total">
+        <span>ยอดชำระสุทธิ</span>
+        <span id="cartGrandTotal">฿0</span>
+      </div>
+      <a href="shop.html" class="checkout-btn" style="text-decoration: none; text-align: center; display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-shirt"></i> ไปเลือกสินค้าในร้าน
+      </a>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       Google & Supabase Auth Modal
+       ========================================================================= -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-box" style="max-width: 420px; padding: 32px 28px; text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('authModal')">&times;</button>
+      <div style="font-size: 2.5rem; color: var(--pink-primary); margin-bottom: 12px;">
+        <i class="fa-solid fa-shield-heart"></i>
+      </div>
+      <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px;">เข้าสู่ระบบสมาชิก</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">
+        เข้าสู่ระบบด้วย Google เพื่อสะสมแต้ม ติดตามสถานะพัสดุ และรับส่วนลดพิเศษ
+      </p>
+      <button onclick="handleGoogleLogin()" style="width: 100%; padding: 12px; background: #ffffff; color: #1f2937; border: 1px solid #e5e7eb; border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        เข้าสู่ระบบด้วย Google
+      </button>
+    </div>
+  </div>
+
+  <!-- User Profile Modal -->
+  <div class="modal-backdrop" id="userProfileModal">
+    <div class="modal-box" style="max-width: 420px; padding: 32px 28px; text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('userProfileModal')">&times;</button>
+      <img id="profileUserAvatar" src="" alt="Avatar" style="width: 72px; height: 72px; border-radius: 50%; border: 3px solid var(--pink-primary); margin: 0 auto 12px; object-fit: cover;" />
+      <h3 id="profileUserName" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">User Name</h3>
+      <p id="profileUserEmail" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">user@example.com</p>
+      <button class="btn-secondary" style="width: 100%; justify-content: center; color: #ef4444;" onclick="handleLogout()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- =========================================================================
+       Footer
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom: 14px;">
+            <div class="brand-icon">
+              <i class="fa-solid fa-crown" style="color: #ffffff;"></i>
+            </div>
+            <div class="brand-text">
+              <h1>Baby<span>Pink</span>.</h1>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+            ร้านขายเสื้อผ้าเด็กออนไลน์ที่ใส่ใจทุกรายละเอียด คัดสรรเนื้อผ้าออร์แกนิกสัมผัสนุ่ม อ่อนโยนต่อผิวลูกน้อย
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>เมนูนำทาง</h4>
+          <ul>
+            <li><a href="index.html">หน้าแรก (Home)</a></li>
+            <li><a href="shop.html">แคตตาล็อกสินค้าทั้งหมด (Shop)</a></li>
+            <li><a href="feedback.html">รีวิวจากลูกค้า (Reviews)</a></li>
+            <li><a href="contact.html">หน้าร้านจริง & ติดต่อเรา (Contact)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>การชำระเงิน & ความปลอดภัย</h4>
+          <ul>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-qrcode" style="color: var(--pink-primary); margin-right: 6px;"></i> QR พร้อมเพย์ (093-758-6699)</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-table" style="color: #10b981; margin-right: 6px;"></i> ส่งออเดอร์เข้า Google Sheets อัตโนมัติ</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-brands fa-google" style="color: #4285F4; margin-right: 6px;"></i> Google OAuth Login</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>หน้าร้านจริง & ติดต่อเรา</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-store" style="color: var(--pink-primary); margin-right: 6px;"></i> แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station
+          </p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-phone" style="color: var(--pink-primary); margin-right: 6px;"></i> 093-758-6699
+          </p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-clock" style="color: var(--pink-primary); margin-right: 6px;"></i> เปิดทุกวัน 10:00 - 21:00 น.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 BabyPink Store. All Rights Reserved. แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station โทร 093-758-6699</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="supabase-config.js"></script>
+  <script src="promptpay.js"></script>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>รีวิวจากคุณพ่อคุณแม่ (Customer Feedback) | BabyPink Store</title>
+  <meta name="description" content="อ่านรีวิวความประทับใจจริงจากคุณพ่อคุณแม่ที่ไว้วางใจเลือกเสื้อผ้าเด็ก BabyPink เนื้อผ้านุ่ม ปลอดภัย ไม่ระคายเคืองผิว" />
+
+  <!-- Google Fonts: Prompt & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =========================================================================
+       Site Header
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-crown" style="color: #ffffff;"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Baby<span>Pink</span>.</h1>
+          <p>Kids & Newborn Boutique</p>
+        </div>
+      </a>
+
+      <!-- Main Navigation -->
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+        <a href="shop.html" class="nav-link"><i class="fa-solid fa-shirt"></i> สินค้าทั้งหมด</a>
+        <a href="feedback.html" class="nav-link active"><i class="fa-solid fa-star"></i> รีวิวลูกค้า</a>
+        <a href="contact.html" class="nav-link"><i class="fa-solid fa-location-dot"></i> หน้าร้าน & ติดต่อ</a>
+      </nav>
+
+      <!-- Actions (Theme Toggle, Auth, Cart) -->
+      <div class="header-actions">
+        <!-- Dark / Light Theme Toggle Switch -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="สลับ Dark / Light Mode">
+          <i class="fa-solid fa-sun icon-sun" style="color: #ffb703;"></i>
+          <i class="fa-solid fa-moon icon-moon" style="color: var(--pink-primary);"></i>
+          <span id="themeLabel">Dark Mode</span>
+        </button>
+
+        <!-- Google User Profile / Login -->
+        <button class="user-btn" onclick="openAuthModal()" id="userBtn" title="เข้าสู่ระบบด้วย Google">
+          <img id="userAvatar" class="user-avatar" src="" alt="Avatar" style="display: none;" />
+          <i class="fa-solid fa-user" id="userIcon"></i>
+          <span id="userText">เข้าสู่ระบบ</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="action-btn" onclick="toggleCartDrawer(true)" title="เปิดตะกร้าสินค้า">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Sub Navigation Bar -->
+    <div class="mobile-nav-bar">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> หน้าแรก</a>
+      <a href="shop.html" class="nav-link"><i class="fa-solid fa-shirt"></i> สินค้าทั้งหมด</a>
+      <a href="feedback.html" class="nav-link active"><i class="fa-solid fa-star"></i> รีวิวลูกค้า</a>
+      <a href="contact.html" class="nav-link"><i class="fa-solid fa-location-dot"></i> หน้าร้าน & ติดต่อ</a>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       Feedback Main Content
+       ========================================================================= -->
+  <main class="container">
+
+    <!-- Header Section -->
+    <section class="contact-hero" style="padding-bottom: 20px;">
+      <div class="section-header-badge">
+        <i class="fa-solid fa-heart"></i> REAL CUSTOMER REVIEWS
+      </div>
+      <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 10px;">
+        เสียงตอบรับจาก <span style="color: var(--pink-primary);">คุณพ่อคุณแม่ตัวจริง</span>
+      </h2>
+      <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto; font-size: 1rem;">
+        เพราะผิวลูกน้อยต้องการสัมผัสที่อ่อนโยนที่สุด ขอบคุณทุกความไว้วางใจที่มอบให้ BabyPink ได้เป็นส่วนหนึ่งในการเติบโตของลูกน้อย
+      </p>
+    </section>
+
+    <!-- Review Rating Summary Bar -->
+    <div class="feedback-summary-bar">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="rating-score-large">4.9</div>
+        <div>
+          <div class="review-stars" style="font-size: 1.3rem; margin-bottom: 4px;">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin: 0;">
+            คะแนนความพึงพอใจโดยรวมจากผู้ใช้งานจริง
+          </p>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">
+            จากยอดรีวิวมากกว่า 500+ ครอบครัวทั่วประเทศ
+          </p>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 24px;">
+        <div style="text-align: center;">
+          <h4 style="font-size: 1.6rem; color: var(--pink-primary); margin-bottom: 2px;">98%</h4>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">กลับมาซื้อซ้ำ</p>
+        </div>
+        <div style="text-align: center;">
+          <h4 style="font-size: 1.6rem; color: #10b981; margin-bottom: 2px;">100%</h4>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">ผ้าออร์แกนิกแท้</p>
+        </div>
+        <div style="text-align: center;">
+          <h4 style="font-size: 1.6rem; color: #00b4d8; margin-bottom: 2px;">1-2 วัน</h4>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">ส่งด่วนถึงบ้าน</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 Customer Reviews Grid -->
+    <div class="reviews-grid">
+
+      <!-- Review 1 -->
+      <div class="review-card">
+        <div class="reviewer-header">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=faces" alt="คุณแม่น้องเอวา" class="reviewer-avatar" />
+          <div class="reviewer-info">
+            <h4>คุณแม่น้องเอวา (กทม.) <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> ผู้ซื้อจริง</span></h4>
+            <span class="review-date">5 มีนาคม 2026</span>
+          </div>
+        </div>
+        <div class="review-stars">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="review-body">
+          "ผ้านุ่มละมุนมากค่ะ ซักเครื่องแล้วไม่ย้วยเลย สีไม่ตก น้องใส่สบายไม่คัน มีกระดุมแป๊กตรงเป้าเปลี่ยนแพมเพิสง่ายสุดๆ สั่งตอนเช้า วันรุ่งขึ้นได้ของแล้ว ส่งไวมาก ประทับใจค่ะ 💖"
+        </p>
+        <div class="purchased-tag">
+          <i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i>
+          <span>ซื้อ: <strong>ชุดหมีรอมเปอร์ลายน้องหมีสีพาสเทล</strong> (ไซส์ 3-6M)</span>
+        </div>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="review-card">
+        <div class="reviewer-header">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=faces" alt="คุณแม่น้องมินนี่" class="reviewer-avatar" />
+          <div class="reviewer-info">
+            <h4>คุณแม่น้องมินนี่ (นนทบุรี) <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> ผู้ซื้อจริง</span></h4>
+            <span class="review-date">1 มีนาคม 2026</span>
+          </div>
+        </div>
+        <div class="review-stars">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="review-body">
+          "ชุดน่ารักเกินราคามากกกกก ผ้าทูลล์นุ่มฟูไม่ระคายเคืองผิวน้องเลยค่ะ ซื้อไปใส่ถ่ายรูปวันเกิดครบ 1 ขวบ แขกในงานชมทุกคนเลยว่าเหมือนเจ้าหญิงตัวน้อย แนะนำคุณแม่ทุกคนเลยค่ะ ✨👗"
+        </p>
+        <div class="purchased-tag">
+          <i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i>
+          <span>ซื้อ: <strong>ชุดเดรสเจ้าหญิงตัวน้อยผ้าทูลล์หวาน</strong> (ไซส์ 1-2Y)</span>
+        </div>
+      </div>
+
+      <!-- Review 3 -->
+      <div class="review-card">
+        <div class="reviewer-header">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=faces" alt="คุณพ่อน้องอาร์เธอร์" class="reviewer-avatar" />
+          <div class="reviewer-info">
+            <h4>คุณพ่อน้องอาร์เธอร์ (ชลบุรี) <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> ผู้ซื้อจริง</span></h4>
+            <span class="review-date">26 กุมภาพันธ์ 2026</span>
+          </div>
+        </div>
+        <div class="review-stars">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="review-body">
+          "ระบบจ่ายเงินพร้อมเพย์สะดวกมากครับ สแกน QR 093-758-6699 แล้วของแพ็คส่งทันที เนื้อผ้าร่องยืดหยุ่นดีมาก ลูกชายใส่คลานคล่องตัว ซักบ่อยทรงยังสวยเหมือนเดิม มีสั่งรอบสองแน่นอนครับ 👍"
+        </p>
+        <div class="purchased-tag">
+          <i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i>
+          <span>ซื้อ: <strong>ชุดบอดี้สูทสกรีนกราฟิก Hello World</strong> (ไซส์ 6-12M)</span>
+        </div>
+      </div>
+
+      <!-- Review 4 -->
+      <div class="review-card">
+        <div class="reviewer-header">
+          <img src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=120&h=120&fit=crop&crop=faces" alt="คุณยายศรีนวล" class="reviewer-avatar" />
+          <div class="reviewer-info">
+            <h4>คุณยายศรีนวล (เชียงใหม่) <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> ผู้ซื้อจริง</span></h4>
+            <span class="review-date">20 กุมภาพันธ์ 2026</span>
+          </div>
+        </div>
+        <div class="review-stars">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="review-body">
+          "ยายสั่งส่งไปให้หลานชายตัวน้อย ผ้าลินินธรรมชาติโปร่งเบา เหมาะกับอากาศเมืองไทยมาก งานตัดเย็บประณีตเรียบร้อย กระดุมกะลาธรรมชาติน่ารัก หลานใส่แล้วน่าเอ็นดูที่สุดจ้ะ"
+        </p>
+        <div class="purchased-tag">
+          <i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i>
+          <span>ซื้อ: <strong>ชุดเซ็ตเสื้อกางเกงลินินเอิร์ธโทน</strong> (ไซส์ 1-2Y สีเขียวเซจ)</span>
+        </div>
+      </div>
+
+      <!-- Review 5 -->
+      <div class="review-card">
+        <div class="reviewer-header">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces" alt="คุณแม่น้องฟ้าใส" class="reviewer-avatar" />
+          <div class="reviewer-info">
+            <h4>คุณแม่น้องฟ้าใส (ปทุมธานี) <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> ผู้ซื้อจริง</span></h4>
+            <span class="review-date">14 กุมภาพันธ์ 2026</span>
+          </div>
+        </div>
+        <div class="review-stars">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <p class="review-body">
+          "พาน้องไปเรียนว่ายน้ำ หมวกว่ายน้ำคลุมท้ายทอยได้มิดชิด แดดไม่เผาผิวน้องเลยค่ะ ผ้าแห้งไว ลายสัตว์ทะเลน่ารักตรงปกมาก มีแม่ๆ ในสระว่ายน้ำเข้ามาถามพิกัดหลายคนเลยค่ะ 🌊🥰"
+        </p>
+        <div class="purchased-tag">
+          <i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i>
+          <span>ซื้อ: <strong>ชุดว่ายน้ำเด็กกัน UV พร้อมหมวก Little Wave</strong> (ไซส์ 2-3Y)</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Review Submission Form Box -->
+    <section class="contact-form-card" style="max-width: 700px; margin: 0 auto 60px;">
+      <h3 style="font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary); text-align: center;">
+        <i class="fa-solid fa-pen-to-square" style="color: var(--pink-primary);"></i> เขียนรีวิวของคุณ
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-bottom: 20px;">
+        ร่วมแบ่งปันความประทับใจเพื่อเป็นประโยชน์ต่อคุณพ่อคุณแม่ท่านอื่น
+      </p>
+
+      <form id="feedbackForm" onsubmit="event.preventDefault(); showToast('🎉 ขอบคุณสำหรับรีวิวสุดประทับใจครับ! ทีมงานจะนำขึ้นแสดงบนหน้าเว็บทันที'); this.reset();">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label>ชื่อของคุณ:</label>
+            <input type="text" required placeholder="เช่น คุณแม่น้อง..." />
+          </div>
+          <div class="form-group">
+            <label>จังหวัด / พื้นที่:</label>
+            <input type="text" placeholder="เช่น กทม., เชียงใหม่" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>คะแนนความพึงพอใจ:</label>
+          <select style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary);">
+            <option value="5">⭐⭐⭐⭐⭐ 5 ดาว - ประทับใจมากที่สุด</option>
+            <option value="4">⭐⭐⭐⭐ 4 ดาว - พึงพอใจมาก</option>
+            <option value="3">⭐⭐⭐ 3 ดาว - ปานกลาง</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>สินค้าที่ซื้อ:</label>
+          <input type="text" placeholder="เช่น ชุดหมีรอมเปอร์, ชุดเดรสเจ้าหญิง" />
+        </div>
+
+        <div class="form-group">
+          <label>ข้อความรีวิวของคุณ:</label>
+          <textarea rows="3" required placeholder="บอกเล่าความรู้สึก สัมผัสของเนื้อผ้า การจัดส่ง..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px;">
+          <i class="fa-solid fa-paper-plane"></i> ส่งรีวิว
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       Slide-over Cart Drawer
+       ========================================================================= -->
+  <div class="cart-drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer(false)"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3><i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i> ตะกร้าสินค้าของคุณ</h3>
+      <button class="close-drawer-btn" onclick="toggleCartDrawer(false)">&times;</button>
+    </div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-footer">
+      <div class="cart-summary-row"><span>ยอดชำระสุทธิ</span><span id="cartGrandTotal">฿0</span></div>
+      <a href="shop.html" class="checkout-btn" style="text-decoration: none; text-align: center; display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-shirt"></i> ไปเลือกสินค้าในร้าน
+      </a>
+    </div>
+  </aside>
+
+  <!-- Auth Modal -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-box" style="max-width: 420px; padding: 32px 28px; text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('authModal')">&times;</button>
+      <div style="font-size: 2.5rem; color: var(--pink-primary); margin-bottom: 12px;">
+        <i class="fa-solid fa-shield-heart"></i>
+      </div>
+      <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 6px;">เข้าสู่ระบบสมาชิก</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">
+        เข้าสู่ระบบด้วย Google เพื่อสะสมแต้ม ติดตามสถานะพัสดุ และรับส่วนลดพิเศษ
+      </p>
+      <button onclick="handleGoogleLogin()" style="width: 100%; padding: 12px; background: #ffffff; color: #1f2937; border: 1px solid #e5e7eb; border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;">
+        <i class="fa-brands fa-google" style="color: #4285F4;"></i> เข้าสู่ระบบด้วย Google
+      </button>
+    </div>
+  </div>
+
+  <!-- User Profile Modal -->
+  <div class="modal-backdrop" id="userProfileModal">
+    <div class="modal-box" style="max-width: 420px; padding: 32px 28px; text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('userProfileModal')">&times;</button>
+      <img id="profileUserAvatar" src="" alt="Avatar" style="width: 72px; height: 72px; border-radius: 50%; border: 3px solid var(--pink-primary); margin: 0 auto 12px; object-fit: cover;" />
+      <h3 id="profileUserName" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">User Name</h3>
+      <p id="profileUserEmail" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">user@example.com</p>
+      <button class="btn-secondary" style="width: 100%; justify-content: center; color: #ef4444;" onclick="handleLogout()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+      </button>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom: 14px;">
+            <div class="brand-icon"><i class="fa-solid fa-crown" style="color: #ffffff;"></i></div>
+            <div class="brand-text"><h1>Baby<span>Pink</span>.</h1></div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+            ร้านขายเสื้อผ้าเด็กออนไลน์ที่ใส่ใจทุกรายละเอียด คัดสรรเนื้อผ้าออร์แกนิกสัมผัสนุ่ม อ่อนโยนต่อผิวลูกน้อย
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>เมนูนำทาง</h4>
+          <ul>
+            <li><a href="index.html">หน้าแรก (Home)</a></li>
+            <li><a href="shop.html">แคตตาล็อกสินค้าทั้งหมด (Shop)</a></li>
+            <li><a href="feedback.html">รีวิวจากลูกค้า (Reviews)</a></li>
+            <li><a href="contact.html">หน้าร้านจริง & ติดต่อเรา (Contact)</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>การชำระเงิน & ความปลอดภัย</h4>
+          <ul>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-qrcode" style="color: var(--pink-primary); margin-right: 6px;"></i> QR พร้อมเพย์ (093-758-6699)</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-table" style="color: #10b981; margin-right: 6px;"></i> ส่งออเดอร์เข้า Google Sheets อัตโนมัติ</span></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>หน้าร้านจริง & ติดต่อเรา</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-store" style="color: var(--pink-primary); margin-right: 6px;"></i> แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station
+          </p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-phone" style="color: var(--pink-primary); margin-right: 6px;"></i> 093-758-6699
+          </p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">
+            <i class="fa-solid fa-clock" style="color: var(--pink-primary); margin-right: 6px;"></i> เปิดทุกวัน 10:00 - 21:00 น.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 BabyPink Store. All Rights Reserved. แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station โทร 093-758-6699</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="supabase-config.js"></script>
+  <script src="promptpay.js"></script>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

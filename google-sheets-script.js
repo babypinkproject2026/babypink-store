@@ -21,8 +21,9 @@
 // ชื่อแผ่นงาน (Sheet Tab Name)
 const SHEET_NAME = "คำสั่งซื้อ";
 
-// สถานะการจัดส่ง 3 สถานะตามที่กำหนด
+// สถานะการจัดส่ง 4 สถานะตามขั้นตอนจริงของร้าน
 const DELIVERY_STATUSES = [
+  "รอตรวจสอบยอดเงิน",
   "จัดเตรียมสินค้า",
   "ส่งสินค้าให้ขนส่ง",
   "จัดส่งสำเร็จ"
@@ -138,7 +139,7 @@ function doPost(e) {
     const customerAddress = data.customerAddress || "-";
     const totalAmount = Number(data.totalAmount) || 0;
     const paymentMethod = data.paymentMethod || "พร้อมเพย์ 093-758-6699";
-    const deliveryStatus = data.deliveryStatus || "จัดเตรียมสินค้า"; // ค่าเริ่มต้น: จัดเตรียมสินค้า
+    const deliveryStatus = data.deliveryStatus || "รอตรวจสอบยอดเงิน"; // ค่าเริ่มต้น: รอตรวจสอบยอดเงิน
     const slipUrl = data.slipUrl || (data.hasSlip ? "มีแนบสลิปโอนเงิน" : "-");
 
     // บันทึกลงแถวใหม่

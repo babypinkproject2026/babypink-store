@@ -652,10 +652,27 @@ async function confirmPayment() {
     return;
   }
 
+  // ตรวจสอบว่ามีการแนบสลิปหลักฐานการโอนเงินหรือไม่ (ป้องกันการกดยืนยันโดยไม่โอนเงินจริง)
+  const slipPreview = document.getElementById("slipPreview");
+  const hasSlip = !!(slipPreview && slipPreview.src && slipPreview.style.display !== "none" && slipPreview.src.startsWith("data:image"));
+
+  if (!hasSlip) {
+    showToast("⚠️ กรุณาสแกน QR และแนบภาพสลิปหลักฐานการโอนเงินก่อนยืนยันครับ");
+    const uploadZone = document.querySelector(".slip-upload-zone");
+    if (uploadZone) {
+      uploadZone.style.borderColor = "#ff4081";
+      uploadZone.style.boxShadow = "0 0 15px rgba(255, 64, 129, 0.5)";
+      uploadZone.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        uploadZone.style.borderColor = "";
+        uploadZone.style.boxShadow = "";
+      }, 2500);
+    }
+    return;
+  }
+
   const totals = calculateCartTotals();
   const orderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
-  const slipPreview = document.getElementById("slipPreview");
-  const hasSlip = !!(slipPreview && slipPreview.src && slipPreview.style.display !== "none");
 
   const orderData = {
     orderId: orderId,
@@ -665,8 +682,9 @@ async function confirmPayment() {
     items: [...AppState.cart],
     totalAmount: totals.grandTotal,
     discount: totals.discount,
-    hasSlip: hasSlip,
-    deliveryStatus: "จัดเตรียมสินค้า", // 1 ใน 3 สถานะการจัดส่ง
+    hasSlip: true,
+    paymentStatus: "pending_verify", // สถานะการเงิน: รอตรวจสอบสลิป
+    deliveryStatus: "รอตรวจสอบยอดเงิน", // สถานะการจัดส่ง: รอตรวจสอบยอดเงิน
     paymentMethod: "PromptPay พร้อมเพย์ (093-758-6699)",
     date: new Date().toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })
   };
@@ -683,7 +701,7 @@ async function confirmPayment() {
   clearInterval(checkoutTimer);
   closeModal("promptpayModal");
 
-  // แสดงหน้ารับออเดอร์สำเร็จ
+  // แสดงหน้ารับออเดอร์สำเร็จ (สถานะรอตรวจสอบสลิป)
   showOrderSuccessModal(orderData);
 }
 
@@ -691,6 +709,15 @@ function showOrderSuccessModal(order) {
   document.getElementById("successOrderId").textContent = order.orderId;
   document.getElementById("successOrderAmount").textContent = `฿${order.totalAmount.toLocaleString()}`;
   document.getElementById("successOrderAddress").textContent = `${order.customerName} | ${order.customerPhone}\n${order.customerAddress}`;
+  
+  // รีเซ็ตฟอร์มสลิปเพื่อรองรับการสั่งซื้อครั้งต่อไป
+  const slipPreview = document.getElementById("slipPreview");
+  const slipFileInput = document.getElementById("slipFileInput");
+  const slipText = document.getElementById("slipUploadText");
+  if (slipPreview) { slipPreview.src = ""; slipPreview.style.display = "none"; }
+  if (slipFileInput) { slipFileInput.value = ""; }
+  if (slipText) { slipText.textContent = "คลิกเพื่อแนบสลิปหลักฐานการโอนเงิน"; }
+
   document.getElementById("orderSuccessModal").classList.add("active");
 }
 

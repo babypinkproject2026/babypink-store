@@ -600,8 +600,10 @@ function handleSlipUpload(event) {
 // Google Sheets Integration (เชื่อมต่อฐานข้อมูลคำสั่งซื้อแบบ Real-time)
 // ==========================================================================
 const GOOGLE_SHEETS_CONFIG = {
-  // นำ URL ที่ได้จากการ Deploy Google Apps Script (Web App) มาวางที่นี่
-  // ดูคู่มือและโค้ดติดตั้งในไฟล์ google-sheets-script.js
+  // ลิงก์ตาราง Google Sheets ของร้าน BabyPink
+  sheetUrl: "https://docs.google.com/spreadsheets/d/1IzP0kcoIMh6zGosyNHgMZ3AqXMtLLrkmKQPPvy6hVyY/edit?gid=338856045#gid=338856045",
+  
+  // นำ Web App URL ที่ได้จากการ Deploy Apps Script (ลงท้ายด้วย /exec) มาวางที่นี่
   webhookUrl: "", 
 
   async syncToGoogleSheets(orderData) {
@@ -625,8 +627,8 @@ const GOOGLE_SHEETS_CONFIG = {
           customerAddress: orderData.customerAddress,
           items: orderData.items,
           totalAmount: orderData.totalAmount,
-          paymentMethod: "พร้อมเพย์ 093-758-6699",
-          deliveryStatus: "จัดเตรียมสินค้า",
+          paymentMethod: orderData.paymentMethod || "พร้อมเพย์ 093-758-6699",
+          deliveryStatus: orderData.deliveryStatus || "รอตรวจสอบยอดเงิน",
           slipUrl: orderData.hasSlip ? "แนบหลักฐานสลิปแล้ว" : "ไม่มีสลิป"
         })
       });
@@ -637,6 +639,22 @@ const GOOGLE_SHEETS_CONFIG = {
     }
   }
 };
+
+function setGoogleSheetsWebhook() {
+  const current = localStorage.getItem("babypink_sheets_webhook_url") || GOOGLE_SHEETS_CONFIG.webhookUrl || "";
+  const input = prompt("กรุณาวาง Web App URL จาก Google Apps Script (ลงท้ายด้วย /exec):", current);
+  if (input !== null) {
+    const trimmed = input.trim();
+    if (trimmed) {
+      localStorage.setItem("babypink_sheets_webhook_url", trimmed);
+      GOOGLE_SHEETS_CONFIG.webhookUrl = trimmed;
+      showToast("✅ บันทึก Google Sheets Webhook เรียบร้อย!");
+    } else {
+      localStorage.removeItem("babypink_sheets_webhook_url");
+      showToast("🗑️ ล้างค่า Webhook URL แล้ว");
+    }
+  }
+}
 
 async function confirmPayment() {
   const nameInput = document.getElementById("customerNameInput");

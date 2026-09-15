@@ -607,7 +607,7 @@ const GOOGLE_SHEETS_CONFIG = {
   sheetUrl: "https://docs.google.com/spreadsheets/d/1IzP0kcoIMh6zGosyNHgMZ3AqXMtLLrkmKQPPvy6hVyY/edit?gid=338856045#gid=338856045",
   
   // นำ Web App URL ที่ได้จากการ Deploy Apps Script (ลงท้ายด้วย /exec) มาวางที่นี่
-  webhookUrl: "", 
+  webhookUrl: "https://script.google.com/macros/s/AKfycbwwLZ2jV1C7uPYeXFL4Q4hkjsFx3626C4Cx58cmAkS7gbsn1OFrYfHH4rfor_twDy0G/exec", 
 
   async syncToGoogleSheets(orderData) {
     const activeUrl = this.webhookUrl || localStorage.getItem("babypink_sheets_webhook_url");

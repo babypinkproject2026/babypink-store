@@ -737,6 +737,10 @@ async function confirmPayment() {
     }
   }
 
+  const now = new Date();
+  const pad = num => String(num).padStart(2, "0");
+  const formattedDate = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
   const orderData = {
     orderId: orderId,
     customerName: name,
@@ -750,7 +754,7 @@ async function confirmPayment() {
     paymentStatus: "pending_verify", // สถานะการเงิน: รอตรวจสอบสลิป
     deliveryStatus: "รอตรวจสอบยอดเงิน", // สถานะการจัดส่ง: รอตรวจสอบยอดเงิน
     paymentMethod: "PromptPay พร้อมเพย์ (093-758-6699)",
-    date: new Date().toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })
+    date: formattedDate
   };
 
   // 1. บันทึกลง Supabase หรือ Local Database

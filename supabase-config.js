@@ -12,9 +12,9 @@
  */
 
 const SUPABASE_CONFIG = {
-  // นำค่ามาจาก Supabase Dashboard > Settings > API
-  url: "https://YOUR_SUPABASE_PROJECT_ID.supabase.co",
-  anonKey: "YOUR_SUPABASE_ANON_PUBLIC_KEY",
+  // นำค่ามาจาก Supabase Dashboard > Settings > API ของร้าน BabyPink
+  url: "https://vzlzsqkmhuowvvannpdp.supabase.co",
+  anonKey: "sb_publishable_B-qgcEdRzzYYjKYXlM4CqQ_Z3YAEJUE",
 
   // ตรวจสอบว่าใส่ Key จริงหรือยัง
   isConfigured: function () {
@@ -116,6 +116,38 @@ const SupabaseService = {
   },
 
   /**
+   * อัปโหลดรูปสลิปหลักฐานเข้าสู่ Supabase Storage Bucket ('slips')
+   */
+  async uploadSlip(file, orderId) {
+    if (SUPABASE_CONFIG.isConfigured() && this.client && file) {
+      try {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${orderId}-${Date.now()}.${fileExt}`;
+        const filePath = `${fileName}`;
+        const { data, error } = await this.client.storage
+          .from('slips')
+          .upload(filePath, file, { cacheControl: '3600', upsert: true });
+
+        if (error) {
+          console.warn("⚠️ Supabase Storage upload error:", error);
+          return null;
+        }
+
+        const { data: publicUrlData } = this.client.storage
+          .from('slips')
+          .getPublicUrl(filePath);
+
+        console.log("📸 อัปโหลดสลิปขึ้น Supabase Storage สำเร็จ:", publicUrlData?.publicUrl);
+        return publicUrlData?.publicUrl || null;
+      } catch (err) {
+        console.warn("Storage upload exception:", err);
+        return null;
+      }
+    }
+    return null;
+  },
+
+  /**
    * บันทึกคำสั่งซื้อลงฐานข้อมูล Supabase
    */
   async saveOrder(orderData) {
@@ -130,11 +162,14 @@ const SupabaseService = {
             items: orderData.items,
             total_amount: orderData.totalAmount,
             payment_method: "promptpay",
-            payment_status: "paid_pending_verify",
+            payment_status: "pending_verify",
+            delivery_status: orderData.deliveryStatus || "รอตรวจสอบยอดเงิน",
+            slip_url: orderData.slipUrl || "-",
             created_at: new Date().toISOString()
           }
         ]);
         if (error) console.warn("Supabase save order error:", error);
+        else console.log("✅ บันทึกคำสั่งซื้อลง Supabase Database สำเร็จ!");
         return { success: true, data };
       } catch (err) {
         console.warn("DB write fallback:", err);

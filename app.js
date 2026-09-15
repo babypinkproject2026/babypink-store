@@ -581,9 +581,12 @@ function startCheckoutTimer(durationSeconds) {
   checkoutTimer = setInterval(update, 1000);
 }
 
+let selectedSlipFile = null;
+
 function handleSlipUpload(event) {
   const file = event.target.files[0];
   if (file) {
+    selectedSlipFile = file;
     const reader = new FileReader();
     reader.onload = function (e) {
       const preview = document.getElementById("slipPreview");
@@ -692,6 +695,20 @@ async function confirmPayment() {
   const totals = calculateCartTotals();
   const orderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
 
+  // อัปโหลดรูปสลิปขึ้น Supabase Storage เพื่อให้ได้ Direct URL จริง
+  let slipUrl = "แนบหลักฐานสลิปแล้ว";
+  if (selectedSlipFile && typeof SupabaseService.uploadSlip === "function") {
+    try {
+      showToast("☁️ กำลังบันทึกข้อมูลและอัปโหลดสลิป...");
+      const uploadedUrl = await SupabaseService.uploadSlip(selectedSlipFile, orderId);
+      if (uploadedUrl) {
+        slipUrl = uploadedUrl;
+      }
+    } catch (e) {
+      console.warn("Slip upload notice:", e);
+    }
+  }
+
   const orderData = {
     orderId: orderId,
     customerName: name,
@@ -701,6 +718,7 @@ async function confirmPayment() {
     totalAmount: totals.grandTotal,
     discount: totals.discount,
     hasSlip: true,
+    slipUrl: slipUrl,
     paymentStatus: "pending_verify", // สถานะการเงิน: รอตรวจสอบสลิป
     deliveryStatus: "รอตรวจสอบยอดเงิน", // สถานะการจัดส่ง: รอตรวจสอบยอดเงิน
     paymentMethod: "PromptPay พร้อมเพย์ (093-758-6699)",
@@ -729,6 +747,7 @@ function showOrderSuccessModal(order) {
   document.getElementById("successOrderAddress").textContent = `${order.customerName} | ${order.customerPhone}\n${order.customerAddress}`;
   
   // รีเซ็ตฟอร์มสลิปเพื่อรองรับการสั่งซื้อครั้งต่อไป
+  selectedSlipFile = null;
   const slipPreview = document.getElementById("slipPreview");
   const slipFileInput = document.getElementById("slipFileInput");
   const slipText = document.getElementById("slipUploadText");

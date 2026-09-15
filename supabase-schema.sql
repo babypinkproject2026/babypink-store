@@ -1,6 +1,6 @@
 -- =========================================================================
--- SQL Schema สำหรับร้านค้าออนไลน์เสื้อผ้าเด็ก (Baby & Kids Online Store)
--- สามารถคัดลอกคำสั่งทั้งหมดนี้ไปวางใน Supabase Dashboard > SQL Editor แล้วกด RUN
+-- SQL Schema สำหรับร้าน BabyPink Store (โปรเจกต์ขายเสื้อผ้าเด็ก)
+-- วิธีใช้: คัดลอกคำสั่งทั้งหมดนี้ไปวางใน Supabase Dashboard > SQL Editor แล้วกด RUN
 -- =========================================================================
 
 -- 1. สร้างตารางเก็บคำสั่งซื้อ (Orders Table)
@@ -12,8 +12,9 @@ CREATE TABLE IF NOT EXISTS public.orders (
     customer_address TEXT,
     items JSONB NOT NULL,
     total_amount NUMERIC(10, 2) NOT NULL,
-    payment_method VARCHAR(50) DEFAULT 'promptpay',
-    payment_status VARCHAR(50) DEFAULT 'paid_pending_verify',
+    payment_method VARCHAR(100) DEFAULT 'PromptPay พร้อมเพย์ (093-758-6699)',
+    payment_status VARCHAR(50) DEFAULT 'pending_verify',
+    delivery_status VARCHAR(50) DEFAULT 'รอตรวจสอบยอดเงิน',
     slip_url TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
@@ -21,17 +22,21 @@ CREATE TABLE IF NOT EXISTS public.orders (
 -- 2. เปิดใช้งาน Row Level Security (RLS) เพื่อความปลอดภัย
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 
--- อนุญาตให้อ่านและสร้างออเดอร์ได้
+-- ลบนโยบายเดิมหากมีอยู่ เพื่อป้องกันข้อผิดพลาดตอนรันซ้ำ
+DROP POLICY IF EXISTS "Allow public insert to orders" ON public.orders;
+DROP POLICY IF EXISTS "Allow public read orders" ON public.orders;
+
+-- อนุญาตให้หน้าเว็บสร้างออเดอร์ใหม่ได้
 CREATE POLICY "Allow public insert to orders" 
 ON public.orders FOR INSERT 
 WITH CHECK (true);
 
-CREATE POLICY "Allow authenticated read orders" 
+-- อนุญาตให้อ่านข้อมูลออเดอร์ได้
+CREATE POLICY "Allow public read orders" 
 ON public.orders FOR SELECT 
-TO authenticated 
 USING (true);
 
--- 3. ตารางสำหรับจัดเก็บรายการสินค้า (Products Table - ทางเลือกหากต้องการจัดการผ่านฐานข้อมูล)
+-- 3. สร้างตารางจัดเก็บรายการสินค้า (Products Table)
 CREATE TABLE IF NOT EXISTS public.products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -47,6 +52,24 @@ CREATE TABLE IF NOT EXISTS public.products (
 );
 
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow public read products" ON public.products;
 CREATE POLICY "Allow public read products" 
 ON public.products FOR SELECT 
 USING (true);
+
+-- 4. สร้าง Storage Bucket 'slips' สำหรับเก็บรูปสลิปโอนเงิน (Public Bucket)
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('slips', 'slips', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+-- นโยบายให้อัปโหลดและดูรูปภาพสลิปได้
+DROP POLICY IF EXISTS "Allow public upload slips" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public read slips" ON storage.objects;
+
+CREATE POLICY "Allow public upload slips" 
+ON storage.objects FOR INSERT 
+WITH CHECK (bucket_id = 'slips');
+
+CREATE POLICY "Allow public read slips" 
+ON storage.objects FOR SELECT 
+USING (bucket_id = 'slips');

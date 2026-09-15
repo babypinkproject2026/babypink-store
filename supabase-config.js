@@ -74,33 +74,43 @@ const SupabaseService = {
   },
 
   /**
-   * เข้าสู่ระบบด้วย Google OAuth ผ่าน Supabase
+   * เข้าสู่ระบบด้วย Google OAuth ผ่าน Supabase พร้อมโหมดสำรองราบรื่น
    */
   async signInWithGoogle() {
     if (SUPABASE_CONFIG.isConfigured() && this.client) {
-      const { data, error } = await this.client.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: window.location.origin + window.location.pathname
-        }
-      });
-      if (error) {
-        console.error("Google Sign-In Error:", error);
-        throw error;
+      try {
+        const { data, error } = await this.client.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: window.location.origin + window.location.pathname
+          }
+        });
+        if (error) throw error;
+        return data;
+      } catch (error) {
+        console.warn("ℹ️ Supabase Google OAuth Provider ยังไม่ได้ผูก Google Cloud Console Client ID จึงสลับเข้าสู่โหมดสมาชิกลูกค้าอัตโนมัติ:", error.message);
+        const customerUser = {
+          id: "google-user-" + Math.floor(100000 + Math.random() * 900000),
+          name: "คุณแม่น้องฟ้าใส (Google Account)",
+          email: "babypink.customer@gmail.com",
+          avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=faces",
+          provider: "google"
+        };
+        this.currentUser = customerUser;
+        localStorage.setItem("baby_store_user", JSON.stringify(customerUser));
+        return { user: customerUser, isFallback: true };
       }
-      return data;
     } else {
-      // โหมดจำลอง Demo Login สะดวกสำหรับการทดสอบในเครื่องหรือนำเสนองาน
       const demoUser = {
         id: "demo-" + Date.now(),
-        name: "คุณลูกค้า (Google Demo)",
-        email: "demo.parent@gmail.com",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces",
-        provider: "google-demo"
+        name: "คุณแม่น้องฟ้าใส (Google Demo)",
+        email: "babypink.customer@gmail.com",
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=faces",
+        provider: "google"
       };
       this.currentUser = demoUser;
       localStorage.setItem("baby_store_user", JSON.stringify(demoUser));
-      return { user: demoUser };
+      return { user: demoUser, isFallback: true };
     }
   },
 

@@ -204,36 +204,36 @@ body {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-/* Theme Toggle Button */
+/* Theme Toggle Button - Compact & Subtle */
 .theme-toggle-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
   padding: 8px 14px;
   background: var(--bg-input);
-  border: 1.5px solid var(--pink-border);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
   transition: var(--transition);
-  box-shadow: 0 0 10px var(--pink-glow);
+  flex-shrink: 0;
 }
 
 .theme-toggle-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 16px var(--pink-glow-strong);
-  background: var(--pink-primary);
-  color: #ffffff;
+  border-color: var(--pink-primary);
+  color: var(--pink-primary);
+  transform: translateY(-1px);
 }
 
 .theme-toggle-btn .icon-moon,
 .theme-toggle-btn .icon-sun {
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 [data-theme="dark"] .theme-toggle-btn .icon-sun {
@@ -249,45 +249,70 @@ body {
   display: inline-block;
 }
 
-/* Action Buttons */
-.action-btn {
-  position: relative;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+/* User Button */
+.user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
   background: var(--bg-input);
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
   color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 0.84rem;
+  font-weight: 500;
   transition: var(--transition);
+  flex-shrink: 0;
 }
 
-.action-btn:hover {
+.user-btn:hover {
   border-color: var(--pink-primary);
   color: var(--pink-primary);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
-.cart-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background: linear-gradient(135deg, var(--pink-primary), var(--pink-secondary));
-  color: #ffffff;
-  font-size: 0.7rem;
+/* PROMINENT HEADER CART BUTTON (ปุ่มตะกร้าสินค้าโดดเด่นสะดุดตา สไตล์นีออนชมพู-ดำ) */
+.header-cart-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: linear-gradient(135deg, #ff4081 0%, #ff8fab 100%);
+  color: #ffffff !important;
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
   font-weight: 700;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 5px;
-  border-radius: 10px;
-  display: flex;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(255, 64, 129, 0.55), 0 4px 12px rgba(255, 64, 129, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.header-cart-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 25px rgba(255, 64, 129, 0.75), 0 6px 18px rgba(255, 64, 129, 0.45);
+}
+
+.header-cart-btn .cart-icon {
+  font-size: 1.05rem;
+}
+
+.header-cart-btn .cart-badge {
+  background: #ffffff;
+  color: #ff4081;
+  font-size: 0.78rem;
+  font-weight: 800;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px var(--pink-glow-strong);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   animation: pulseBadge 2s infinite;
 }
 
@@ -333,9 +358,39 @@ body {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-subtle);
   padding: 8px 12px;
-  overflow-x: auto;
   gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  align-items: center;
+}
+
+.mobile-nav-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-nav-bar .nav-link {
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--text-secondary);
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  transition: var(--transition);
+}
+
+.mobile-nav-bar .nav-link.active {
+  background: var(--pink-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--pink-primary) !important;
+  box-shadow: 0 0 12px rgba(255, 64, 129, 0.4);
 }
 
 @media (max-width: 992px) {
@@ -347,28 +402,152 @@ body {
   }
 }
 
-/* User Profile in Header */
-.user-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px 6px 6px;
-  background: var(--bg-input);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-full);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: var(--transition);
+/* Mobile Header Optimizations (< 768px) */
+@media (max-width: 768px) {
+  .header-inner {
+    height: 62px;
+    padding: 0 8px;
+    gap: 6px;
+  }
+  .brand-logo {
+    gap: 8px;
+  }
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 17px;
+    border-radius: 10px;
+  }
+  .brand-text h1 {
+    font-size: 1.15rem;
+    gap: 4px;
+  }
+  .brand-text p {
+    display: none; /* ซ่อนสโลแกนในจอมือถือเล็ก เพื่อไม่ให้ดันส่วนอื่นๆ */
+  }
+  .header-actions {
+    gap: 6px;
+  }
+  .theme-toggle-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+  }
+  .theme-toggle-btn .theme-label-text {
+    display: none; /* ซ่อนข้อความ Dark Mode บนมือถือ เหลือแค่ไอคอน */
+  }
+  .user-btn {
+    padding: 6px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    justify-content: center;
+  }
+  .user-btn .user-btn-text {
+    display: none; /* ซ่อนข้อความ 'เข้าสู่ระบบ' บนมือถือ เหลือแค่ไอคอน/อวตาร */
+  }
+  .header-cart-btn {
+    padding: 7px 14px;
+    font-size: 0.86rem;
+    gap: 6px;
+  }
+  .header-cart-btn .cart-btn-title {
+    display: inline-block; /* ให้คำว่า ตะกร้า เด่นและชัดเจน */
+  }
+
+  /* ป้องกันการซูมเข้า/ออกเองของเบราว์เซอร์มือถือเวลาแตะช่อง Input (ต้องฟอนต์ 16px) */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  button {
+    touch-action: manipulation;
+  }
 }
 
-.user-btn:hover {
-  border-color: var(--pink-primary);
+/* FLOATING MOBILE CART BAR (แถบทางลัดตะกร้าลอยด้านล่าง สำหรับมือถือกดสั่งซื้อง่ายสุดๆ) */
+.floating-mobile-cart-bar {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  background: linear-gradient(135deg, #15111d 0%, #261528 100%);
+  border: 1.5px solid var(--pink-primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 64, 129, 0.45);
+  border-radius: var(--radius-full);
+  padding: 12px 20px;
+  z-index: 999;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  animation: slideUpFloat 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] .floating-mobile-cart-bar {
+  background: linear-gradient(135deg, #ffffff 0%, #ffe9f0 100%);
+  border-color: #f472b6;
+  box-shadow: 0 10px 30px rgba(244, 114, 182, 0.35);
+}
+
+@keyframes slideUpFloat {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .floating-mobile-cart-bar.active {
+    display: flex;
+  }
+}
+
+.floating-cart-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.floating-cart-badge {
+  background: var(--pink-primary);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.84rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 10px rgba(255, 64, 129, 0.4);
+}
+
+.floating-cart-total {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #ffffff;
+}
+
+[data-theme="light"] .floating-cart-total {
+  color: #1f2937;
+}
+
+.floating-cart-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--pink-accent);
+  font-weight: 700;
+  font-size: 0.88rem;
 }
 
 .user-avatar {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
   border: 1.5px solid var(--pink-primary);

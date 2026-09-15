@@ -54,23 +54,24 @@
 
       <!-- Actions (Theme Toggle, Auth, Cart) -->
       <div class="header-actions">
-        <!-- Dark / Light Theme Toggle Switch -->
-        <button class="theme-toggle-btn" onclick="toggleTheme()" title="สลับ Dark / Light Mode">
+        <!-- Dark / Light Theme Toggle Switch (Compact) -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="สลับ Dark / Light Mode" aria-label="สลับธีม">
           <i class="fa-solid fa-sun icon-sun" style="color: #ffb703;"></i>
           <i class="fa-solid fa-moon icon-moon" style="color: var(--pink-primary);"></i>
-          <span id="themeLabel">Dark Mode</span>
+          <span class="theme-label-text" id="themeLabel">Dark</span>
         </button>
 
-        <!-- Google User Profile / Login -->
-        <button class="user-btn" onclick="openAuthModal()" id="userBtn" title="เข้าสู่ระบบด้วย Google">
+        <!-- User Profile / Login -->
+        <button class="user-btn" onclick="openAuthModal()" id="userBtn" title="เข้าสู่ระบบสมาชิก">
           <img id="userAvatar" class="user-avatar" src="" alt="Avatar" style="display: none;" />
           <i class="fa-solid fa-user" id="userIcon"></i>
-          <span id="userText">เข้าสู่ระบบ</span>
+          <span class="user-btn-text" id="userText">เข้าสู่ระบบ</span>
         </button>
 
-        <!-- Cart Button -->
-        <button class="action-btn" onclick="toggleCartDrawer(true)" title="เปิดตะกร้าสินค้า">
-          <i class="fa-solid fa-bag-shopping"></i>
+        <!-- PROMINENT CART BUTTON (ปุ่มตะกร้าสีชมพูนีออน เด่นสะดุดตา สั่งซื้อง่าย) -->
+        <button class="header-cart-btn" onclick="toggleCartDrawer(true)" title="เปิดตะกร้าสินค้า" id="mainCartBtn">
+          <i class="fa-solid fa-bag-shopping cart-icon"></i>
+          <span class="cart-btn-title">ตะกร้า</span>
           <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
         </button>
       </div>
@@ -325,6 +326,13 @@
         </div>
         <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); color: var(--text-muted); font-size: 0.8rem; white-space: pre-line;" id="successOrderAddress">
         </div>
+        <!-- Slip Preview & Direct Link -->
+        <div id="successSlipContainer" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-subtle); display: none; text-align: center;">
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px;"><i class="fa-solid fa-receipt" style="color: var(--pink-primary);"></i> ภาพสลิปหลักฐานที่แนบ:</p>
+          <a id="successSlipLink" href="#" target="_blank" title="คลิกดูภาพสลิปขนาดเต็ม">
+            <img id="successSlipImg" src="" alt="Slip" style="max-height: 120px; max-width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); object-fit: contain; box-shadow: 0 2px 8px rgba(0,0,0,0.2);" />
+          </a>
+        </div>
       </div>
 
       <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="closeModal('orderSuccessModal')">
@@ -446,10 +454,9 @@
         <div class="footer-col">
           <h4>การชำระเงิน & ความปลอดภัย</h4>
           <ul>
-            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-qrcode" style="color: var(--pink-primary); margin-right: 6px;"></i> QR พร้อมเพย์ (093-758-6699)</span></li>
-            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-table" style="color: #10b981; margin-right: 6px;"></i> เชื่อมต่อ Google Sheets อัตโนมัติ</span></li>
-            <li><span style="color: var(--text-secondary);"><i class="fa-brands fa-google" style="color: #4285F4; margin-right: 6px;"></i> Google OAuth Login</span></li>
-            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-database" style="color: #a855f7; margin-right: 6px;"></i> Supabase Cloud Database</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-qrcode" style="color: var(--pink-primary); margin-right: 6px;"></i> QR พร้อมเพย์ ทุกธนาคาร (093-758-6699)</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-shield-check" style="color: #10b981; margin-right: 6px;"></i> ตรวจสอบสลิป ปลอดภัย มั่นใจได้ 100%</span></li>
+            <li><span style="color: var(--text-secondary);"><i class="fa-solid fa-truck-fast" style="color: #38bdf8; margin-right: 6px;"></i> จัดส่งด่วนทั่วไทย Flash / Kerry Express</span></li>
           </ul>
         </div>
 
@@ -468,7 +475,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 BabyPink Store. All Rights Reserved. แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station โทร 093-758-6699 | <a href="https://docs.google.com/spreadsheets/d/1IzP0kcoIMh6zGosyNHgMZ3AqXMtLLrkmKQPPvy6hVyY/edit?gid=338856045#gid=338856045" target="_blank" style="color: inherit; text-decoration: underline;"><i class="fa-solid fa-table"></i> แดชบอร์ดคำสั่งซื้อ Google Sheets</a></p>
+        <p>&copy; 2026 BabyPink Store. All Rights Reserved. แฟชั่นไอส์แลนด์ ชั้น 2 โซน Grand Station โทร 093-758-6699</p>
       </div>
     </div>
   </footer>

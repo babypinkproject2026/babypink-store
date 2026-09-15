@@ -254,7 +254,35 @@ function updateCartBadge() {
   const badge = document.getElementById("cartBadge");
   if (badge) {
     badge.textContent = totalCount;
-    badge.style.display = totalCount > 0 ? "flex" : "none";
+    badge.style.display = totalCount > 0 ? "inline-flex" : "none";
+  }
+
+  // อัปเดตแถบปุ่มลัดตะกร้าลอยด้านล่างสำหรับมือถือ (Floating Mobile Cart Bar)
+  let floatingBar = document.getElementById("floatingMobileCartBar");
+  if (!floatingBar && typeof document !== "undefined" && document.body) {
+    floatingBar = document.createElement("div");
+    floatingBar.id = "floatingMobileCartBar";
+    floatingBar.className = "floating-mobile-cart-bar";
+    floatingBar.onclick = () => toggleCartDrawer(true);
+    document.body.appendChild(floatingBar);
+  }
+
+  if (floatingBar) {
+    if (totalCount > 0) {
+      const totals = calculateCartTotals();
+      floatingBar.innerHTML = `
+        <div class="floating-cart-info">
+          <div class="floating-cart-badge"><i class="fa-solid fa-bag-shopping"></i> <span>${totalCount} ชิ้น</span></div>
+          <div class="floating-cart-total">฿${totals.grandTotal.toLocaleString()}</div>
+        </div>
+        <div class="floating-cart-action">
+          <span>ดูตะกร้า & ชำระเงิน</span> <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      `;
+      floatingBar.classList.add("active");
+    } else {
+      floatingBar.classList.remove("active");
+    }
   }
 }
 
@@ -632,7 +660,7 @@ const GOOGLE_SHEETS_CONFIG = {
           totalAmount: orderData.totalAmount,
           paymentMethod: orderData.paymentMethod || "พร้อมเพย์ 093-758-6699",
           deliveryStatus: orderData.deliveryStatus || "รอตรวจสอบยอดเงิน",
-          slipUrl: orderData.hasSlip ? "แนบหลักฐานสลิปแล้ว" : "ไม่มีสลิป"
+          slipUrl: orderData.slipUrl || (orderData.hasSlip ? "แนบหลักฐานสลิปแล้ว" : "-")
         })
       });
       console.log("📊 บันทึกคำสั่งซื้อไปยัง Google Sheets สำเร็จ!");
@@ -746,6 +774,20 @@ function showOrderSuccessModal(order) {
   document.getElementById("successOrderAmount").textContent = `฿${order.totalAmount.toLocaleString()}`;
   document.getElementById("successOrderAddress").textContent = `${order.customerName} | ${order.customerPhone}\n${order.customerAddress}`;
   
+  // แสดงรูปสลิปใน Modal ความสำเร็จหากมีลิงก์
+  const slipContainer = document.getElementById("successSlipContainer");
+  const slipImg = document.getElementById("successSlipImg");
+  const slipLink = document.getElementById("successSlipLink");
+  if (slipContainer && slipImg && slipLink) {
+    if (order.slipUrl && order.slipUrl.startsWith("http")) {
+      slipImg.src = order.slipUrl;
+      slipLink.href = order.slipUrl;
+      slipContainer.style.display = "block";
+    } else {
+      slipContainer.style.display = "none";
+    }
+  }
+
   // รีเซ็ตฟอร์มสลิปเพื่อรองรับการสั่งซื้อครั้งต่อไป
   selectedSlipFile = null;
   const slipPreview = document.getElementById("slipPreview");

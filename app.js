@@ -83,7 +83,7 @@ function renderProducts() {
           <img src="${product.image}" 
                alt="${product.name}" 
                loading="lazy"
-               onerror="this.onerror=null; this.src='${product.imageCdn}'; this.onerror=function(){this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&auto=format&fit=crop&q=80';};" />
+               onerror="this.onerror=null; this.src='${product.imageCdn}'; this.onerror=function(){this.src='assets/images/product-1.jpg';};" />
         </div>
 
         <div class="product-info">

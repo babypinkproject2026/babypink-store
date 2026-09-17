@@ -41,7 +41,7 @@ const PRODUCTS = [
     tag: "ขายดีอันดับ 1",
     tagType: "hot",
     image: "assets/images/product-1.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby%27s_romper_suit,_c.1950s.jpg?width=800",
+    imageCdn: "assets/images/product-1.jpg",
     description: "ชุดหมีรอมเปอร์ตัดเย็บจากผ้าคอตตอนออร์แกนิก 100% สัมผัสนุ่มละมุนเป็นพิเศษ ไม่ระคายเคืองต่อผิวบอบบางของทารก ปักลายหน้าน้องหมีน่ารัก งานปักประณีตไร้รอยคันด้านใน มีกระดุมแป๊กด้านหน้าและเป้า สะดวกต่อการเปลี่ยนผ้าอ้อม",
     sizes: ["0-3M", "3-6M", "6-12M", "1-2Y"],
     colors: [
@@ -65,7 +65,7 @@ const PRODUCTS = [
     tag: "ยอดนิยม",
     tagType: "popular",
     image: "assets/images/product-2.jpg",
-    imageCdn: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&auto=format&fit=crop&q=80",
+    imageCdn: "assets/images/product-2.jpg",
     description: "บอดี้สูทผ้าร่องเกรดพรีเมียม เนื้อผ้ายืดหยุ่นสูง ระบายอากาศได้ดีเยี่ยม เหมาะกับสภาพอากาศเมืองไทย สวมใส่สบาย กระชับคล่องตัว มาพร้อมหมวกบีนนี่เข้าชุดสีชมพูพาสเทล",
     sizes: ["0-3M", "3-6M", "6-12M"],
     colors: [
@@ -89,7 +89,7 @@ const PRODUCTS = [
     tag: "มาใหม่",
     tagType: "new",
     image: "assets/images/product-3.jpg",
-    imageCdn: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80",
+    imageCdn: "assets/images/product-3.jpg",
     description: "เซ็ตเสื้อคอจีนกระดุมกะลาพร้อมกางเกงขาสั้นขอบยางยืด ผลิตจากผ้าฝ้ายผสมลินินธรรมชาติ นุ่มเบา ไม่ร้อน ดีไซน์สไตล์มินิมอลญี่ปุ่น สวมใส่ได้ทั้งเด็กชายและเด็กหญิง",
     sizes: ["6-12M", "1-2Y", "2-3Y", "3-4Y"],
     colors: [
@@ -113,7 +113,7 @@ const PRODUCTS = [
     tag: "แนะนำพิเศษ",
     tagType: "highlight",
     image: "assets/images/product-4.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Dress,_baby_(AM_1387-2).jpg?width=800",
+    imageCdn: "assets/images/product-4.jpg",
     description: "เดรสเจ้าหญิงสีชมพูหวานละมุน ตัดเย็บซับในด้วยผ้าคอตตอนเนื้อนุ่ม 100% ซ้อนทับด้วยผ้าทูลล์เนื้อละเอียดฟรุ้งฟริ้ง ประดับลูกไม้คอบัวและโบว์ซาติน สวยหรูเหมาะสำหรับงานเลี้ยง ถ่ายรูป 1st Birthday",
     sizes: ["3-6M", "6-12M", "1-2Y", "2-3Y"],
     colors: [
@@ -136,7 +136,7 @@ const PRODUCTS = [
     tag: "ขายดี",
     tagType: "popular",
     image: "assets/images/product-5.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby_with_plaid_overalls_(2007).jpg?width=800",
+    imageCdn: "assets/images/product-5.jpg",
     description: "ชุดเอี๊ยมยีนส์ฟอกนิ่มขาสั้น ไม่แข็งกระด้าง ปรับระดับสายเอี๊ยมได้ 2 ระดับ พร้อมกระเป๋าหน้าใบเล็กน่ารัก แมตช์คู่กับเสื้อยืดลายทางคอกลม สไตล์เรโทรเท่ๆ",
     sizes: ["6-12M", "1-2Y", "2-3Y", "3-4Y"],
     colors: [
@@ -159,7 +159,7 @@ const PRODUCTS = [
     tag: "ผ้านุ่มพิเศษ",
     tagType: "popular",
     image: "assets/images/product-6.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby_Onesie_(49876451731).jpg?width=800",
+    imageCdn: "assets/images/product-6.jpg",
     description: "ชุดนอนผ้าคอตตอนทอพิเศษ นุ่มสบาย ช่วยให้อุณหภูมิร่างกายคงที่ตลอดทั้งคืน ลายพิมพ์ดอกไม้สีชมพูอ่อน ขอบผ้านุ่ม ไม่รัดแน่นเวลาลูกนอนดิ้น",
     sizes: ["6-12M", "1-2Y", "2-3Y", "3-5Y"],
     colors: [
@@ -182,7 +182,7 @@ const PRODUCTS = [
     tag: "Handmade",
     tagType: "highlight",
     image: "assets/images/product-7.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Cardigan,_baby_(AM_1999.107.24-6).jpg?width=800",
+    imageCdn: "assets/images/product-7.jpg",
     description: "สเวตเตอร์ไหมพรมเส้นใยนุ่มพิเศษ ไม่ระคายเคืองผิวเด็ก งานถักประณีต อบอุ่นกำลังดี เหมาะสำหรับใส่เดินทางท่องเที่ยวหรือในห้องปรับอากาศ",
     sizes: ["6-12M", "1-2Y", "2-3Y"],
     colors: [
@@ -205,7 +205,7 @@ const PRODUCTS = [
     tag: "ผ้านุ่มสบาย",
     tagType: "new",
     image: "assets/images/product-8.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby%27s_romper_suit,_c.1950s.jpg?width=800",
+    imageCdn: "assets/images/product-8.jpg",
     description: "ชุดรอมเปอร์ผ้าฝ้ายทรงคลาสสิก ระบายเหงื่อได้ดีเยี่ยม แห้งไว ขอบขากระชับพอดี ช่วยให้น้องคลานและเคลื่อนไหวได้อย่างคล่องตัว",
     sizes: ["6-12M", "1-2Y", "2-3Y"],
     colors: [
@@ -228,7 +228,7 @@ const PRODUCTS = [
     tag: "ยอดนิยม",
     tagType: "popular",
     image: "assets/images/product-9.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby_dress,_Puerto_Rico,_cotton_-_Museo_de_las_Americas_-_San_Juan,_Puerto_Rico_-_DSC06921.JPG?width=800",
+    imageCdn: "assets/images/product-9.jpg",
     description: "ชุดเดรสเด็กอ่อนทำจากผ้าฝ้ายเนื้อโปร่ง 2 ชั้น นุ่มสบาย ยิ่งซักยิ่งนุ่ม สวมใส่ง่าย ระบายเหงื่อได้ยอดเยี่ยม เหมาะกับน้องแรกเกิดถึง 1 ขวบ",
     sizes: ["0-3M", "3-6M", "6-12M"],
     colors: [
@@ -251,7 +251,7 @@ const PRODUCTS = [
     tag: "แฟชั่นเกาหลี",
     tagType: "hot",
     image: "assets/images/product-10.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby_with_plaid_overalls_(2007).jpg?width=800",
+    imageCdn: "assets/images/product-10.jpg",
     description: "ชุดเอี๊ยมลายสก็อตสุดเท่ ตัดเย็บด้วยผ้านุ่มไม่บาดผิว สไตล์สตรีทแฟชั่นเกาหลี ทรงสวย คล่องตัว มาพร้อมกระดุมปรับระดับสาย",
     sizes: ["1-2Y", "2-3Y", "3-4Y"],
     colors: [
@@ -274,7 +274,7 @@ const PRODUCTS = [
     tag: "สวมใส่ง่าย",
     tagType: "popular",
     image: "assets/images/product-11.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby_in_an_infant_bodysuit_2.jpg?width=800",
+    imageCdn: "assets/images/product-11.jpg",
     description: "ชุดบอดี้สูทเนื้อผ้ายืดหยุ่นสูง โอบกระชับลำตัวลูกน้อยอย่างอ่อนโยน กระดุมเป้าแบบแป๊กเปลี่ยนผ้าอ้อมสะดวก สีชมพูพาสเทลละมุนตา",
     sizes: ["0-3M", "3-6M", "6-12M"],
     colors: [
@@ -297,7 +297,7 @@ const PRODUCTS = [
     tag: "ยอดนิยม",
     tagType: "popular",
     image: "assets/images/product-12.jpg",
-    imageCdn: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&auto=format&fit=crop&q=80",
+    imageCdn: "assets/images/product-12.jpg",
     description: "เสื้อยืดเด็กผ้าคอตตอนเนื้อเนียนนุ่ม สกรีนลายน้องหมี แมตช์คู่กับหมวกบีนนี่ถักนุ่มนิ่ม โทนสีขาวตัดชมพู ถ่ายรูปน่ารักทุกมุม",
     sizes: ["3-6M", "6-12M", "1-2Y"],
     colors: [
@@ -320,7 +320,7 @@ const PRODUCTS = [
     tag: "โปรโมชัน",
     tagType: "sale",
     image: "assets/images/product-13.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Baby_in_Wikimedia_Foundation_%22hello_world%22_onesie.jpg?width=800",
+    imageCdn: "assets/images/product-13.jpg",
     description: "บอดี้สูทแขนสั้นสกรีนข้อความน่ารัก สีพิมพ์ปลอดสารพิษ (Non-toxic) ไม่ระคายเคืองแม้เข้าปาก คอเสื้อแบบ Envelope ขยายง่าย ไม่ติดศีรษะเวลาสวม",
     sizes: ["0-3M", "3-6M", "6-12M", "1-2Y"],
     colors: [
@@ -343,7 +343,7 @@ const PRODUCTS = [
     tag: "พรีเมียม",
     tagType: "highlight",
     image: "assets/images/product-14.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Jacket,_baby_(AM_2002.64.15-2).jpg?width=800",
+    imageCdn: "assets/images/product-14.jpg",
     description: "เสื้อคลุมแจ็คเก็ตไหมพรมถักลายละเอียด กระดุมหน้าคู่ โทนสีชมพูอ่อนหวาน สไตล์วินเทจยุโรป ให้ความอบอุ่นกำลังดี นุ่มสบายไม่คัน",
     sizes: ["3-6M", "6-12M", "1-2Y", "2-3Y"],
     colors: [
@@ -366,7 +366,7 @@ const PRODUCTS = [
     tag: "แนะนำพิเศษ",
     tagType: "hot",
     image: "assets/images/product-15.jpg",
-    imageCdn: "https://commons.wikimedia.org/wiki/Special:FilePath/Dress,_baby_(AM_1387-2).jpg?width=800",
+    imageCdn: "assets/images/product-15.jpg",
     description: "เดรสผ้าลูกไม้และผ้าคอตตอนเนื้อละเอียดพิเศษ ลายถักฉลุหวานหรูหรา ซับในคอตตอนนุ่ม 100% เหมาะสำหรับงานเฉลิมฉลอง ถ่ายภาพสตูดิโอ หรือของขวัญต้อนรับสมาชิกใหม่",
     sizes: ["3-6M", "6-12M", "1-2Y"],
     colors: [
@@ -389,7 +389,7 @@ const PRODUCTS = [
     tag: "กันแดด UPF50+",
     tagType: "hot",
     image: "assets/images/product-16.jpg",
-    imageCdn: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=800&auto=format&fit=crop&q=80",
+    imageCdn: "assets/images/product-16.jpg",
     description: "ชุดว่ายน้ำเด็กเนื้อผ้าว่ายน้ำพรีเมียม ป้องกันรังสี UV สูงสุดระดับ UPF 50+ สกรีนลายสัตว์ทะเลพาสเทลสุดน่ารัก ซิปหน้าพร้อมแถบรองซิปกันหนีบผิว มาพร้อมหมวกว่ายน้ำปีกกว้างคลุมท้ายทอย ป้องกันแดดเผาผิวลูกน้อยได้อย่างมั่นใจ",
     sizes: ["6-12M", "1-2Y", "2-3Y", "3-4Y"],
     colors: [
@@ -412,7 +412,7 @@ const PRODUCTS = [
     tag: "ไอเทมจำเป็น",
     tagType: "popular",
     image: "assets/images/product-17.jpg",
-    imageCdn: "https://images.unsplash.com/photo-1544126592-807ade215a0b?w=800&auto=format&fit=crop&q=80",
+    imageCdn: "assets/images/product-17.jpg",
     description: "กางเกงผ้าอ้อมว่ายน้ำสำหรับเด็กอ่อนและเด็กเล็ก ป้องกันของเสียหรืออุจจาระเล็ดลอดลงสระน้ำตามมาตรฐานสระว่ายน้ำสากล เนื้อผ้านุ่มยืดหยุ่น ขอบเอวและขอบขากระชับพอดี ไม่อุ้มน้ำจนหนักตัว ซักทำความสะอาดง่ายและนำกลับมาใช้ซ้ำได้",
     sizes: ["0-6M", "6-12M", "1-2Y", "2-3Y"],
     colors: [

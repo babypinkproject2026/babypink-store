@@ -129,9 +129,9 @@ function renderTopProducts() {
   // อันดับ 2: id 4 (ชุดเดรสเจ้าหญิงตัวน้อยผ้าทูลล์หวาน) 👑 ยอดรีวิวสูงสุด 215 รีวิว
   // อันดับ 3: id 13 (ชุดบอดี้สูทสกรีนกราฟิก Hello World) 👶 ฮิตในคุณแม่ยุคใหม่
   const topConfigs = [
-    { id: 1, rank: 1, medal: "🥇", label: "อันดับ 1 ขายดีตลอดกาล", badge: "ยอดนิยมอันดับ 1 🔥", emoji: "🧸" },
-    { id: 4, rank: 2, medal: "🥈", label: "อันดับ 2 ขวัญใจคุณแม่", badge: "รีวิวสูงสุด 215 รีวิว ✨", emoji: "👑" },
-    { id: 13, rank: 3, medal: "🥉", label: "อันดับ 3 ผ้านุ่มพิเศษ", badge: "ฮิตใน TikTok 🚀", emoji: "👶" }
+    { id: 1, rank: 1, medal: "#1", label: "อันดับ 1 ขายดีตลอดกาล", badge: "ยอดนิยมอันดับ 1" },
+    { id: 4, rank: 2, medal: "#2", label: "อันดับ 2 ขวัญใจคุณแม่", badge: "รีวิวสูงสุด 215 รีวิว" },
+    { id: 13, rank: 3, medal: "#3", label: "อันดับ 3 ผ้านุ่มพิเศษ", badge: "ผ้านุ่มพิเศษ" }
   ];
 
   const topProducts = topConfigs.map(cfg => {
@@ -166,7 +166,7 @@ function renderTopProducts() {
         </div>
 
         <div class="product-info">
-          <span class="product-cat">${product.categoryName} ${product.emoji}</span>
+          <span class="product-cat">${product.categoryName}</span>
           <h3 class="product-title" onclick="openQuickView(${product.id})">${product.name}</h3>
           <p class="product-subtitle">${product.nameEn}</p>
 
@@ -313,7 +313,7 @@ function addToCart(productId, size = null, color = null, quantity = 1) {
   }
 
   saveCart();
-  showToast(`เพิ่ม "${product.name}" (${chosenSize}) ลงตะกร้าแล้ว 💖`);
+  showToast(`เพิ่ม "${product.name}" (${chosenSize}) ลงตะกร้าแล้ว`);
 }
 
 function updateCartItemQty(index, change) {
@@ -420,15 +420,15 @@ function applyCoupon() {
   if (code === "BABYPINK10") {
     AppState.discountRate = 0.10;
     AppState.activeCoupon = "BABYPINK10";
-    showToast("🎉 ใช้โค้ด BABYPINK10 สำเร็จ! รับส่วนลด 10%");
+    showToast("ใช้โค้ด BABYPINK10 สำเร็จ! รับส่วนลด 10%");
     renderCartDrawer();
   } else if (code === "BABYFREE") {
     AppState.discountRate = 0.15;
     AppState.activeCoupon = "BABYFREE";
-    showToast("🎉 ใช้โค้ด BABYFREE สำเร็จ! รับส่วนลด 15%");
+    showToast("ใช้โค้ด BABYFREE สำเร็จ! รับส่วนลด 15%");
     renderCartDrawer();
   } else {
-    showToast("⚠️ ไม่พบคูปองส่วนลดนี้ ลองใช้รหัส BABYPINK10 ดูนะครับ");
+    showToast("ไม่พบคูปองส่วนลดนี้ ลองใช้รหัส BABYPINK10 ดูนะครับ");
   }
 }
 
@@ -621,7 +621,7 @@ function handleSlipUpload(event) {
       preview.src = e.target.result;
       preview.style.display = "block";
       document.getElementById("slipUploadText").textContent = `แนบสลิป: ${file.name}`;
-      showToast("📸 แนบภาพหลักฐานสลิปโอนเงินแล้ว");
+      showToast("แนบภาพหลักฐานสลิปโอนเงินแล้ว");
     };
     reader.readAsDataURL(file);
   }
@@ -663,8 +663,8 @@ const GOOGLE_SHEETS_CONFIG = {
           slipUrl: orderData.slipUrl || (orderData.hasSlip ? "แนบหลักฐานสลิปแล้ว" : "-")
         })
       });
-      console.log("📊 บันทึกคำสั่งซื้อไปยัง Google Sheets สำเร็จ!");
-      showToast("📊 ข้อมูลคำสั่งซื้อถูกส่งไปยัง Google Sheets เรียบร้อย!");
+      console.log("บันทึกคำสั่งซื้อไปยัง Google Sheets สำเร็จ!");
+      showToast("ข้อมูลคำสั่งซื้อถูกส่งไปยัง Google Sheets เรียบร้อย!");
     } catch (err) {
       console.warn("⚠️ Google Sheets Webhook sync error:", err);
     }
@@ -841,7 +841,7 @@ async function handleGoogleLogin() {
     await SupabaseService.signInWithGoogle();
     closeModal("authModal");
     updateAuthUI();
-    showToast(`ยินดีต้อนรับคุณ ${SupabaseService.currentUser.name} 💖`);
+    showToast(`ยินดีต้อนรับคุณ ${SupabaseService.currentUser.name}`);
   } catch (err) {
     showToast("เกิดข้อผิดพลาดในการเข้าสู่ระบบ: " + err.message);
   }

@@ -29,13 +29,7 @@
     <div class="container header-inner">
       <!-- Brand Logo -->
       <a href="index.html" class="brand-logo">
-        <div class="brand-icon">
-          <i class="fa-solid fa-crown" style="color: #ffffff;"></i>
-        </div>
-        <div class="brand-text">
-          <h1>Baby<span>Pink</span>.</h1>
-          <p>Kids & Newborn Boutique</p>
-        </div>
+        <span class="brand-name">Baby<span class="brand-pink">Pink</span> <span class="brand-store">Store</span></span>
       </a>
 
       <!-- Main Navigation -->
@@ -159,8 +153,8 @@
           <div class="info-content">
             <h4>การเดินทางสะดวกสบาย</h4>
             <p>
-              🚝 <strong>รถไฟฟ้าสายสีชมพู:</strong> ลงที่ <em>สถานีวงแหวนรามอินทรา (PK25)</em> มีทางเชื่อม Skywalk เดินเข้าศูนย์การค้าแฟชั่นไอส์แลนด์ได้โดยตรง<br/>
-              🚗 <strong>รถยนต์ส่วนตัว:</strong> มีอาคารจอดรถกว้างขวาง จอดฟรีตลอดทั้งวันจนถึงห้างปิด (ไม่มีค่าบริการที่จอดรถ)
+              <i class="fa-solid fa-train-subway" style="color: var(--pink-primary); margin-right: 4px;"></i> <strong>รถไฟฟ้าสายสีชมพู:</strong> ลงที่ <em>สถานีวงแหวนรามอินทรา (PK25)</em> มีทางเชื่อม Skywalk เดินเข้าศูนย์การค้าแฟชั่นไอส์แลนด์ได้โดยตรง<br/>
+              <i class="fa-solid fa-car" style="color: var(--pink-primary); margin-right: 4px;"></i> <strong>รถยนต์ส่วนตัว:</strong> มีอาคารจอดรถกว้างขวาง จอดฟรีตลอดทั้งวันจนถึงห้างปิด (ไม่มีค่าบริการที่จอดรถ)
             </p>
           </div>
         </div>
@@ -201,22 +195,68 @@
           </button>
         </form>
 
-        <!-- Social Channels -->
-        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border-subtle); text-align: center;">
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">หรือติดต่อผ่านช่องทางโซเชียลมีเดีย:</p>
-          <div style="display: flex; justify-content: center; gap: 14px;">
-            <a href="tel:0937586699" style="width: 44px; height: 44px; border-radius: 50%; background: var(--pink-light); color: var(--pink-primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid var(--pink-border);" title="โทร 093-758-6699">
-              <i class="fa-solid fa-phone"></i>
-            </a>
-            <a href="#" onclick="showToast('💬 Line Official: @babypink-shop')" style="width: 44px; height: 44px; border-radius: 50%; background: #06c75520; color: #06c755; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid #06c75550;" title="LINE Official">
-              <i class="fa-brands fa-line"></i>
-            </a>
-            <a href="#" onclick="showToast('📘 Facebook: BabyPink Store เสื้อผ้าเด็กพรีเมียม')" style="width: 44px; height: 44px; border-radius: 50%; background: #1877f220; color: #1877f2; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid #1877f250;" title="Facebook Page">
-              <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a href="#" onclick="showToast('📸 Instagram: @babypink_thailand')" style="width: 44px; height: 44px; border-radius: 50%; background: #e1306c20; color: #e1306c; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; border: 1px solid #e1306c50;" title="Instagram">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
+        <!-- Social Channels with Interactive Hover Preview -->
+        <div class="social-channels-container">
+          <p class="social-channels-header">
+            <i class="fa-solid fa-headset" style="color: var(--pink-primary);"></i> ช่องทางโซเชียลมีเดีย & ติดต่อสอบถาม:
+          </p>
+          
+          <div class="social-pills-row">
+            <!-- Phone -->
+            <button type="button" class="social-pill-btn pill-phone" onmouseenter="hoverSocial('phone')" onclick="copyActiveSocial(event, 'phone')">
+              <span class="pill-icon"><i class="fa-solid fa-phone"></i></span>
+              <span>093-758-6699</span>
+              <div class="social-popover">
+                <span class="popover-label">โทรศัพท์ติดต่อ</span>
+                <span class="popover-handle">093-758-6699</span>
+              </div>
+            </button>
+
+            <!-- LINE -->
+            <button type="button" class="social-pill-btn pill-line" onmouseenter="hoverSocial('line')" onclick="copyActiveSocial(event, 'line')">
+              <span class="pill-icon"><i class="fa-brands fa-line"></i></span>
+              <span>LINE @babypink-shop</span>
+              <div class="social-popover">
+                <span class="popover-label">LINE Official</span>
+                <span class="popover-handle">@babypink-shop</span>
+              </div>
+            </button>
+
+            <!-- Facebook -->
+            <button type="button" class="social-pill-btn pill-fb" onmouseenter="hoverSocial('facebook')" onclick="copyActiveSocial(event, 'facebook')">
+              <span class="pill-icon"><i class="fa-brands fa-facebook-f"></i></span>
+              <span>BabyPink Store</span>
+              <div class="social-popover">
+                <span class="popover-label">Facebook Fanpage</span>
+                <span class="popover-handle">BabyPink Store เสื้อผ้าเด็ก</span>
+              </div>
+            </button>
+
+            <!-- Instagram -->
+            <button type="button" class="social-pill-btn pill-ig" onmouseenter="hoverSocial('instagram')" onclick="copyActiveSocial(event, 'instagram')">
+              <span class="pill-icon"><i class="fa-brands fa-instagram"></i></span>
+              <span>@babypink_thailand</span>
+              <div class="social-popover">
+                <span class="popover-label">Instagram Profile</span>
+                <span class="popover-handle">@babypink_thailand</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Live Hover Layout Preview Card -->
+          <div class="social-preview-layout active-preview" id="socialPreviewBox">
+            <div class="preview-left">
+              <div class="preview-icon-box" id="previewIcon" style="color: #06c755; background: rgba(6, 199, 85, 0.15);">
+                <i class="fa-brands fa-line"></i>
+              </div>
+              <div class="preview-info">
+                <div class="preview-title" id="previewTitle">LINE Official: @babypink-shop</div>
+                <div class="preview-desc" id="previewDesc">แชตสอบถามแอดมิน ปรึกษาเทียบไซส์เสื้อผ้าเด็ก ตอบกลับรวดเร็ว</div>
+              </div>
+            </div>
+            <button type="button" class="preview-action-btn" id="previewCopyBtn" onclick="copyActiveSocial(event)">
+              <i class="fa-regular fa-copy"></i> คัดลอก LINE ID
+            </button>
           </div>
         </div>
       </div>
@@ -310,12 +350,7 @@
       <div class="footer-grid">
         <div class="footer-col">
           <div class="brand-logo" style="margin-bottom: 14px;">
-            <div class="brand-icon">
-              <i class="fa-solid fa-crown" style="color: #ffffff;"></i>
-            </div>
-            <div class="brand-text">
-              <h1>Baby<span>Pink</span>.</h1>
-            </div>
+            <span class="brand-name">Baby<span class="brand-pink">Pink</span> <span class="brand-store">Store</span></span>
           </div>
           <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
             ร้านขายเสื้อผ้าเด็กออนไลน์ที่ใส่ใจทุกรายละเอียด คัดสรรเนื้อผ้าออร์แกนิกสัมผัสนุ่ม อ่อนโยนต่อผิวลูกน้อย
@@ -396,7 +431,7 @@
 
       if (!name || !phone || !msg) {
         if (typeof showToast === "function") {
-          showToast("⚠️ กรุณากรอกชื่อ เบอร์โทร และข้อความให้ครบถ้วน");
+          showToast("กรุณากรอกชื่อ เบอร์โทร และข้อความให้ครบถ้วน");
         }
         return;
       }
@@ -451,9 +486,107 @@
           submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งข้อความทันที';
         }
         if (typeof showToast === "function") {
-          showToast(`💌 ส่งข้อความเรียบร้อย! ทางร้านจะติดต่อกลับที่เบอร์ ${phone} โดยเร็วครับ`);
+          showToast(`ส่งข้อความเรียบร้อย! ทางร้านจะติดต่อกลับที่เบอร์ ${phone} โดยเร็วครับ`);
         }
       });
+    }
+
+    // =========================================================================
+    // Social Media Channels Hover Layout & Interaction
+    // =========================================================================
+    const socialData = {
+      phone: {
+        title: 'โทรศัพท์ติดต่อ: 093-758-6699',
+        desc: 'ติดต่อสอบถามสต็อกสินค้าหน้าร้าน แฟชั่นไอส์แลนด์ ชั้น 2 (10:00 - 20:00 น.)',
+        icon: 'fa-solid fa-phone',
+        iconColor: 'var(--pink-primary)',
+        bgColor: 'var(--pink-light)',
+        copyVal: '093-758-6699',
+        btnText: 'คัดลอกเบอร์โทร'
+      },
+      line: {
+        title: 'LINE Official: @babypink-shop',
+        desc: 'แชตสอบถามแอดมิน ปรึกษาเทียบไซส์เสื้อผ้าเด็ก ตอบกลับรวดเร็ว',
+        icon: 'fa-brands fa-line',
+        iconColor: '#06c755',
+        bgColor: 'rgba(6, 199, 85, 0.15)',
+        copyVal: '@babypink-shop',
+        btnText: 'คัดลอก LINE ID'
+      },
+      facebook: {
+        title: 'Facebook: BabyPink Store เสื้อผ้าเด็กพรีเมียม',
+        desc: 'ติดตามโปรโมชั่น ข่าวสารอัปเดต และภาพรีวิวจริงจากคุณพ่อคุณแม่',
+        icon: 'fa-brands fa-facebook-f',
+        iconColor: '#1877f2',
+        bgColor: 'rgba(24, 119, 242, 0.15)',
+        copyVal: 'BabyPink Store เสื้อผ้าเด็กพรีเมียม',
+        btnText: 'คัดลอกชื่อเพจ'
+      },
+      instagram: {
+        title: 'Instagram: @babypink_thailand',
+        desc: 'ชม Lookbook ถ่ายแบบชุดเด็ก แฟชั่นมินิมอล คอลเลกชันใหม่ล่าสุด',
+        icon: 'fa-brands fa-instagram',
+        iconColor: '#e1306c',
+        bgColor: 'rgba(225, 48, 108, 0.15)',
+        copyVal: '@babypink_thailand',
+        btnText: 'คัดลอก IG Handle'
+      }
+    };
+
+    let activeSocialKey = 'line';
+
+    function hoverSocial(key) {
+      if (!socialData[key]) return;
+      activeSocialKey = key;
+      const data = socialData[key];
+      const box = document.getElementById('socialPreviewBox');
+      const icon = document.getElementById('previewIcon');
+      const title = document.getElementById('previewTitle');
+      const desc = document.getElementById('previewDesc');
+      const btn = document.getElementById('previewCopyBtn');
+
+      if (box && icon && title && desc && btn) {
+        box.classList.add('active-preview');
+        icon.innerHTML = `<i class="${data.icon}"></i>`;
+        icon.style.color = data.iconColor;
+        icon.style.background = data.bgColor;
+        title.textContent = data.title;
+        desc.textContent = data.desc;
+        btn.innerHTML = `<i class="fa-regular fa-copy"></i> ${data.btnText}`;
+      }
+    }
+
+    function copyActiveSocial(e, directKey) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const keyToCopy = directKey || activeSocialKey;
+      const data = socialData[keyToCopy];
+      if (!data) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(data.copyVal).then(() => {
+          const btn = document.getElementById('previewCopyBtn');
+          if (btn) btn.innerHTML = '<i class="fa-solid fa-check"></i> คัดลอกสำเร็จ!';
+          if (typeof showToast === 'function') {
+            showToast(`คัดลอก "${data.copyVal}" สำเร็จแล้ว`);
+          }
+          setTimeout(() => {
+            if (btn && activeSocialKey) {
+              btn.innerHTML = `<i class="fa-regular fa-copy"></i> ${socialData[activeSocialKey].btnText}`;
+            }
+          }, 2000);
+        }).catch(() => {
+          if (typeof showToast === 'function') {
+            showToast(`ข้อมูลติดต่อ: ${data.copyVal}`);
+          }
+        });
+      } else {
+        if (typeof showToast === 'function') {
+          showToast(`ข้อมูลติดต่อ: ${data.copyVal}`);
+        }
+      }
     }
   </script>
 </body>

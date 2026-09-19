@@ -1930,19 +1930,19 @@ body {
 }
 
 /* ==========================================================================
-   Social Media Channels Hover Layout (Contact Page)
+   Social Media Channels - 4 Equal Columns & Smooth Stable Preview
    ========================================================================== */
 .social-channels-container {
   margin-top: 24px;
-  padding-top: 20px;
+  padding-top: 18px;
   border-top: 1px dashed var(--border-subtle);
   text-align: center;
 }
 
 .social-channels-header {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   color: var(--text-secondary);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -1950,158 +1950,119 @@ body {
   gap: 6px;
 }
 
-.social-pills-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.social-pill-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
+/* 4 ช่องเรียงเสมอกัน 1 แถวเสมอ ไม่หักบรรทัด */
+.social-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  padding: 8px 14px;
-  border-radius: 30px;
+  margin-bottom: 12px;
+}
+
+.social-grid-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border-radius: 12px;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1.5px solid var(--border-subtle);
   color: var(--text-primary);
-  font-size: 0.86rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   user-select: none;
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
 }
 
-.social-pill-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-}
-
-.social-pill-btn .pill-icon {
-  width: 28px;
-  height: 28px;
+.social-grid-btn .grid-btn-icon {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   transition: transform 0.2s ease;
   flex-shrink: 0;
 }
 
-.social-pill-btn:hover .pill-icon {
-  transform: scale(1.15);
+.social-grid-btn:hover .grid-btn-icon {
+  transform: scale(1.08);
+}
+
+.social-grid-btn .grid-btn-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 /* Specific Platform Styles */
-.social-pill-btn.pill-phone .pill-icon {
+.social-grid-btn.pill-phone .grid-btn-icon {
   background: var(--pink-light);
   color: var(--pink-primary);
 }
-.social-pill-btn.pill-phone:hover {
+.social-grid-btn.pill-phone:hover,
+.social-grid-btn.pill-phone.active {
   border-color: var(--pink-primary);
   background: var(--pink-light);
+  box-shadow: 0 3px 10px rgba(255, 42, 133, 0.15);
 }
 
-.social-pill-btn.pill-line .pill-icon {
+.social-grid-btn.pill-line .grid-btn-icon {
   background: rgba(6, 199, 85, 0.15);
   color: #06c755;
 }
-.social-pill-btn.pill-line:hover {
+.social-grid-btn.pill-line:hover,
+.social-grid-btn.pill-line.active {
   border-color: #06c755;
   background: rgba(6, 199, 85, 0.1);
+  box-shadow: 0 3px 10px rgba(6, 199, 85, 0.15);
 }
 
-.social-pill-btn.pill-fb .pill-icon {
+.social-grid-btn.pill-fb .grid-btn-icon {
   background: rgba(24, 119, 242, 0.15);
   color: #1877f2;
 }
-.social-pill-btn.pill-fb:hover {
+.social-grid-btn.pill-fb:hover,
+.social-grid-btn.pill-fb.active {
   border-color: #1877f2;
   background: rgba(24, 119, 242, 0.1);
+  box-shadow: 0 3px 10px rgba(24, 119, 242, 0.15);
 }
 
-.social-pill-btn.pill-ig .pill-icon {
+.social-grid-btn.pill-ig .grid-btn-icon {
   background: rgba(225, 48, 108, 0.15);
   color: #e1306c;
 }
-.social-pill-btn.pill-ig:hover {
+.social-grid-btn.pill-ig:hover,
+.social-grid-btn.pill-ig.active {
   border-color: #e1306c;
   background: rgba(225, 48, 108, 0.1);
+  box-shadow: 0 3px 10px rgba(225, 48, 108, 0.15);
 }
 
-/* Floating Hover Tooltip Popover */
-.social-pill-btn .social-popover {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--border-subtle);
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.social-pill-btn .social-popover::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 5px;
-  border-style: solid;
-  border-color: var(--border-subtle) transparent transparent transparent;
-}
-
-.social-pill-btn:hover .social-popover {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
-.social-popover .popover-label {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.social-popover .popover-handle {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--pink-primary);
-}
-
-/* Interactive Hover Preview Layout Card below buttons */
+/* Stable, Smooth Preview Layout Card (Fixed Height - Zero Layout Shifts) */
 .social-preview-layout {
-  margin-top: 14px;
-  padding: 10px 16px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  padding: 8px 14px;
   border-radius: 12px;
   background: var(--bg-input);
   border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   text-align: left;
-  transition: all 0.25s ease;
-  min-height: 52px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .social-preview-layout.active-preview {
@@ -2115,31 +2076,33 @@ body {
   gap: 10px;
   flex: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .social-preview-layout .preview-icon-box {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 1rem;
   background: var(--bg-card);
-  color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
 .social-preview-layout .preview-info {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  flex: 1;
+  overflow: hidden;
 }
 
 .social-preview-layout .preview-title {
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.25;
@@ -2149,7 +2112,7 @@ body {
 }
 
 .social-preview-layout .preview-desc {
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
   line-height: 1.3;
   white-space: nowrap;
@@ -2159,23 +2122,19 @@ body {
 
 .social-preview-layout .preview-action-btn {
   font-size: 0.76rem;
-  padding: 5px 12px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
-  display: none;
   font-weight: 600;
   flex-shrink: 0;
-}
-
-.social-preview-layout.active-preview .preview-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .social-preview-layout .preview-action-btn:hover {

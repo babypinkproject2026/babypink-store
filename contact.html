@@ -201,61 +201,45 @@
             <i class="fa-solid fa-headset" style="color: var(--pink-primary);"></i> ช่องทางโซเชียลมีเดีย & ติดต่อสอบถาม:
           </p>
           
-          <div class="social-pills-row">
-            <!-- Phone -->
-            <button type="button" class="social-pill-btn pill-phone" onmouseenter="hoverSocial('phone')" onclick="copyActiveSocial(event, 'phone')">
-              <span class="pill-icon"><i class="fa-solid fa-phone"></i></span>
-              <span>093-758-6699</span>
-              <div class="social-popover">
-                <span class="popover-label">โทรศัพท์ติดต่อ</span>
-                <span class="popover-handle">093-758-6699</span>
-              </div>
+          <div class="social-grid-4">
+            <!-- 1. Phone -->
+            <button type="button" class="social-grid-btn pill-phone" id="btn-phone" onmouseenter="switchSocial('phone')" onclick="copySocialChannel('phone')">
+              <div class="grid-btn-icon"><i class="fa-solid fa-phone"></i></div>
+              <span class="grid-btn-name">โทรศัพท์</span>
             </button>
 
-            <!-- LINE -->
-            <button type="button" class="social-pill-btn pill-line" onmouseenter="hoverSocial('line')" onclick="copyActiveSocial(event, 'line')">
-              <span class="pill-icon"><i class="fa-brands fa-line"></i></span>
-              <span>LINE @babypink-shop</span>
-              <div class="social-popover">
-                <span class="popover-label">LINE Official</span>
-                <span class="popover-handle">@babypink-shop</span>
-              </div>
+            <!-- 2. LINE -->
+            <button type="button" class="social-grid-btn pill-line active" id="btn-line" onmouseenter="switchSocial('line')" onclick="copySocialChannel('line')">
+              <div class="grid-btn-icon"><i class="fa-brands fa-line"></i></div>
+              <span class="grid-btn-name">LINE</span>
             </button>
 
-            <!-- Facebook -->
-            <button type="button" class="social-pill-btn pill-fb" onmouseenter="hoverSocial('facebook')" onclick="copyActiveSocial(event, 'facebook')">
-              <span class="pill-icon"><i class="fa-brands fa-facebook-f"></i></span>
-              <span>BabyPink Store</span>
-              <div class="social-popover">
-                <span class="popover-label">Facebook Fanpage</span>
-                <span class="popover-handle">BabyPink Store เสื้อผ้าเด็ก</span>
-              </div>
+            <!-- 3. Facebook -->
+            <button type="button" class="social-grid-btn pill-fb" id="btn-facebook" onmouseenter="switchSocial('facebook')" onclick="copySocialChannel('facebook')">
+              <div class="grid-btn-icon"><i class="fa-brands fa-facebook-f"></i></div>
+              <span class="grid-btn-name">Facebook</span>
             </button>
 
-            <!-- Instagram -->
-            <button type="button" class="social-pill-btn pill-ig" onmouseenter="hoverSocial('instagram')" onclick="copyActiveSocial(event, 'instagram')">
-              <span class="pill-icon"><i class="fa-brands fa-instagram"></i></span>
-              <span>@babypink_thailand</span>
-              <div class="social-popover">
-                <span class="popover-label">Instagram Profile</span>
-                <span class="popover-handle">@babypink_thailand</span>
-              </div>
+            <!-- 4. Instagram -->
+            <button type="button" class="social-grid-btn pill-ig" id="btn-instagram" onmouseenter="switchSocial('instagram')" onclick="copySocialChannel('instagram')">
+              <div class="grid-btn-icon"><i class="fa-brands fa-instagram"></i></div>
+              <span class="grid-btn-name">Instagram</span>
             </button>
           </div>
 
-          <!-- Live Hover Layout Preview Card -->
+          <!-- Live Stable Preview Card (Zero Jitter & Fixed Height) -->
           <div class="social-preview-layout active-preview" id="socialPreviewBox">
             <div class="preview-left">
               <div class="preview-icon-box" id="previewIcon" style="color: #06c755; background: rgba(6, 199, 85, 0.15);">
                 <i class="fa-brands fa-line"></i>
               </div>
               <div class="preview-info">
-                <div class="preview-title" id="previewTitle">LINE Official: @babypink-shop</div>
-                <div class="preview-desc" id="previewDesc">แชตสอบถามแอดมิน ปรึกษาเทียบไซส์เสื้อผ้าเด็ก ตอบกลับรวดเร็ว</div>
+                <div class="preview-title" id="previewTitle">LINE: @babypink-shop</div>
+                <div class="preview-desc" id="previewDesc">สอบถามแอดมิน ปรึกษาเทียบไซส์ ตอบกลับไว</div>
               </div>
             </div>
-            <button type="button" class="preview-action-btn" id="previewCopyBtn" onclick="copyActiveSocial(event)">
-              <i class="fa-regular fa-copy"></i> คัดลอก LINE ID
+            <button type="button" class="preview-action-btn" id="previewCopyBtn" onclick="copyCurrentSocial()">
+              <i class="fa-regular fa-copy"></i> คัดลอก LINE
             </button>
           </div>
         </div>
@@ -492,30 +476,30 @@
     }
 
     // =========================================================================
-    // Social Media Channels Hover Layout & Interaction
+    // Social Media Channels 4-Grid Interaction (Smooth & Stable)
     // =========================================================================
     const socialData = {
       phone: {
-        title: 'โทรศัพท์ติดต่อ: 093-758-6699',
-        desc: 'ติดต่อสอบถามสต็อกสินค้าหน้าร้าน แฟชั่นไอส์แลนด์ ชั้น 2 (10:00 - 20:00 น.)',
+        title: 'โทรศัพท์: 093-758-6699',
+        desc: 'ติดต่อสอบถามสต็อกหน้าร้าน (10:00 - 20:00 น.)',
         icon: 'fa-solid fa-phone',
         iconColor: 'var(--pink-primary)',
         bgColor: 'var(--pink-light)',
         copyVal: '093-758-6699',
-        btnText: 'คัดลอกเบอร์โทร'
+        btnText: 'คัดลอกเบอร์'
       },
       line: {
-        title: 'LINE Official: @babypink-shop',
-        desc: 'แชตสอบถามแอดมิน ปรึกษาเทียบไซส์เสื้อผ้าเด็ก ตอบกลับรวดเร็ว',
+        title: 'LINE: @babypink-shop',
+        desc: 'สอบถามแอดมิน ปรึกษาเทียบไซส์ ตอบกลับไว',
         icon: 'fa-brands fa-line',
         iconColor: '#06c755',
         bgColor: 'rgba(6, 199, 85, 0.15)',
         copyVal: '@babypink-shop',
-        btnText: 'คัดลอก LINE ID'
+        btnText: 'คัดลอก LINE'
       },
       facebook: {
-        title: 'Facebook: BabyPink Store เสื้อผ้าเด็กพรีเมียม',
-        desc: 'ติดตามโปรโมชั่น ข่าวสารอัปเดต และภาพรีวิวจริงจากคุณพ่อคุณแม่',
+        title: 'Facebook: BabyPink Store',
+        desc: 'อัปเดตโปรโมชั่นและรีวิวสินค้าใหม่ทุกวัน',
         icon: 'fa-brands fa-facebook-f',
         iconColor: '#1877f2',
         bgColor: 'rgba(24, 119, 242, 0.15)',
@@ -523,30 +507,40 @@
         btnText: 'คัดลอกชื่อเพจ'
       },
       instagram: {
-        title: 'Instagram: @babypink_thailand',
-        desc: 'ชม Lookbook ถ่ายแบบชุดเด็ก แฟชั่นมินิมอล คอลเลกชันใหม่ล่าสุด',
+        title: 'IG: @babypink_thailand',
+        desc: 'Lookbook เสื้อผ้าเด็กมินิมอลเกาหลี',
         icon: 'fa-brands fa-instagram',
         iconColor: '#e1306c',
         bgColor: 'rgba(225, 48, 108, 0.15)',
         copyVal: '@babypink_thailand',
-        btnText: 'คัดลอก IG Handle'
+        btnText: 'คัดลอก IG'
       }
     };
 
     let activeSocialKey = 'line';
 
-    function hoverSocial(key) {
+    function switchSocial(key) {
       if (!socialData[key]) return;
       activeSocialKey = key;
       const data = socialData[key];
-      const box = document.getElementById('socialPreviewBox');
+
+      ['phone', 'line', 'facebook', 'instagram'].forEach(k => {
+        const btn = document.getElementById('btn-' + k);
+        if (btn) {
+          if (k === key) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        }
+      });
+
       const icon = document.getElementById('previewIcon');
       const title = document.getElementById('previewTitle');
       const desc = document.getElementById('previewDesc');
       const btn = document.getElementById('previewCopyBtn');
 
-      if (box && icon && title && desc && btn) {
-        box.classList.add('active-preview');
+      if (icon && title && desc && btn) {
         icon.innerHTML = `<i class="${data.icon}"></i>`;
         icon.style.color = data.iconColor;
         icon.style.background = data.bgColor;
@@ -556,19 +550,15 @@
       }
     }
 
-    function copyActiveSocial(e, directKey) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      const keyToCopy = directKey || activeSocialKey;
-      const data = socialData[keyToCopy];
+    function copySocialChannel(key) {
+      switchSocial(key);
+      const data = socialData[key];
       if (!data) return;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(data.copyVal).then(() => {
           const btn = document.getElementById('previewCopyBtn');
-          if (btn) btn.innerHTML = '<i class="fa-solid fa-check"></i> คัดลอกสำเร็จ!';
+          if (btn) btn.innerHTML = '<i class="fa-solid fa-check"></i> คัดลอกแล้ว';
           if (typeof showToast === 'function') {
             showToast(`คัดลอก "${data.copyVal}" สำเร็จแล้ว`);
           }
@@ -587,6 +577,10 @@
           showToast(`ข้อมูลติดต่อ: ${data.copyVal}`);
         }
       }
+    }
+
+    function copyCurrentSocial() {
+      copySocialChannel(activeSocialKey);
     }
   </script>
 </body>

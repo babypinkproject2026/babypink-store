@@ -175,7 +175,7 @@
           มีคำถามเกี่ยวกับสินค้า แจ้งปัญหา หรือสอบถามเพิ่มเติม กรอกฟอร์มด้านล่างได้เลยครับ
         </p>
 
-        <form id="contactForm" onsubmit="event.preventDefault(); showToast('💌 ส่งข้อความเรียบร้อย! เจ้าหน้าที่จะติดต่อกลับโดยเร็วครับ'); this.reset();">
+        <form id="contactForm" onsubmit="handleContactFormSubmit(event)">
           <div class="form-group">
             <label for="contactName">ชื่อของคุณพ่อ/คุณแม่:</label>
             <input type="text" id="contactName" required placeholder="ระบุชื่อของคุณ" />
@@ -383,5 +383,78 @@
   <script src="promptpay.js"></script>
   <script src="products.js"></script>
   <script src="app.js"></script>
+
+  <!-- Interactive Contact Message Handler -->
+  <script>
+    function handleContactFormSubmit(event) {
+      event.preventDefault();
+      const name = document.getElementById("contactName").value.trim();
+      const phone = document.getElementById("contactPhone").value.trim();
+      const topic = document.getElementById("contactTopic").value.trim() || "สอบถามทั่วไป";
+      const msg = document.getElementById("contactMsg").value.trim();
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+
+      if (!name || !phone || !msg) {
+        if (typeof showToast === "function") {
+          showToast("⚠️ กรุณากรอกชื่อ เบอร์โทร และข้อความให้ครบถ้วน");
+        }
+        return;
+      }
+
+      // ปุ่มแสดงสถานะกำลังส่ง
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังส่งข้อความ...';
+      }
+
+      const todayTh = new Date().toLocaleDateString("th-TH", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      const contactData = {
+        action: "contact",
+        name,
+        phone,
+        topic,
+        message: msg,
+        date: todayTh,
+        timestamp: new Date().toISOString()
+      };
+
+      // 1. บันทึกลง LocalStorage
+      try {
+        const saved = JSON.parse(localStorage.getItem("babypink_contact_messages") || "[]");
+        saved.unshift(contactData);
+        localStorage.setItem("babypink_contact_messages", JSON.stringify(saved));
+      } catch (err) {
+        console.warn("LocalStorage error:", err);
+      }
+
+      // 2. ส่งข้อมูลเข้า Google Sheets Webhook
+      const sendPromise = (typeof GOOGLE_SHEETS_CONFIG !== "undefined" && GOOGLE_SHEETS_CONFIG.webhookUrl)
+        ? fetch(GOOGLE_SHEETS_CONFIG.webhookUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(contactData)
+          })
+        : Promise.resolve();
+
+      sendPromise.finally(() => {
+        document.getElementById("contactForm").reset();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ส่งข้อความทันที';
+        }
+        if (typeof showToast === "function") {
+          showToast(`💌 ส่งข้อความเรียบร้อย! ทางร้านจะติดต่อกลับที่เบอร์ ${phone} โดยเร็วครับ`);
+        }
+      });
+    }
+  </script>
 </body>
 </html>

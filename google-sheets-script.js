@@ -168,7 +168,60 @@ function doPost(e) {
     }
 
     // ========================================================================
-    // กรณีที่ 2: คำสั่งซื้อสินค้า (Orders)
+    // กรณีที่ 2: คำขอส่งข้อความติดต่อร้านค้า (Contact Messages)
+    // ========================================================================
+    if (data.action === "contact" || data.type === "contact") {
+      let contactSheet = ss.getSheetByName("ข้อความติดต่อ") || ss.getSheetByName("ข้อความถึงร้านค้า") || ss.getSheetByName("ติดต่อเรา");
+      if (!contactSheet) {
+        contactSheet = ss.insertSheet("ข้อความติดต่อ");
+        const contactHeaders = [
+          "วันที่-เวลา",
+          "ชื่อคุณพ่อ/คุณแม่",
+          "เบอร์โทรศัพท์",
+          "เรื่องที่สอบถาม",
+          "รายละเอียดข้อความ",
+          "สถานะการติดต่อ"
+        ];
+        const ch = contactSheet.getRange(1, 1, 1, contactHeaders.length);
+        ch.setValues([contactHeaders]);
+        ch.setFontWeight("bold");
+        ch.setBackground("#fdf2f8");
+        ch.setFontColor("#9d174d");
+        ch.setHorizontalAlignment("center");
+        contactSheet.setRowHeight(1, 35);
+        contactSheet.setColumnWidth(1, 160);
+        contactSheet.setColumnWidth(2, 180);
+        contactSheet.setColumnWidth(3, 150);
+        contactSheet.setColumnWidth(4, 200);
+        contactSheet.setColumnWidth(5, 400);
+        contactSheet.setColumnWidth(6, 150);
+
+        // ตั้ง Dropdown สำหรับสถานะการติดต่อ
+        const statusRule = SpreadsheetApp.newDataValidation()
+          .requireValueInList(["🟡 รอติดต่อกลับ", "🟢 ติดต่อแล้ว", "⚪ ปิดการติดต่อ"], true)
+          .setAllowInvalid(false)
+          .build();
+        contactSheet.getRange("F2:F500").setDataValidation(statusRule);
+      }
+
+      const cTimestamp = data.date || Utilities.formatDate(new Date(), "Asia/Bangkok", "dd/MM/yyyy HH:mm:ss");
+      contactSheet.appendRow([
+        cTimestamp,
+        data.name || data.customerName || "-",
+        data.phone || data.customerPhone || "-",
+        data.topic || "สอบถามทั่วไป",
+        data.message || data.comment || "-",
+        "🟡 รอติดต่อกลับ"
+      ]);
+
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "success",
+        message: "บันทึกข้อความติดต่อเข้า Google Sheets เรียบร้อยแล้ว"
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // ========================================================================
+    // กรณีที่ 3: คำสั่งซื้อสินค้า (Orders)
     // ========================================================================
 
     // แปลงรายการสินค้าให้อ่านง่าย เช่น "ชุดหมีรอมเปอร์ x1 (฿350), ชุดว่ายน้ำ x1 (฿490)"

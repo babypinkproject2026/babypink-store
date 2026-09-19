@@ -136,7 +136,7 @@
     </div>
 
     <!-- 5 Customer Reviews Grid -->
-    <div class="reviews-grid">
+    <div class="reviews-grid" id="reviewsGrid">
 
       <!-- Review 1 -->
       <div class="review-card">
@@ -274,21 +274,21 @@
         ร่วมแบ่งปันความประทับใจเพื่อเป็นประโยชน์ต่อคุณพ่อคุณแม่ท่านอื่น
       </p>
 
-      <form id="feedbackForm" onsubmit="event.preventDefault(); showToast('🎉 ขอบคุณสำหรับรีวิวสุดประทับใจครับ! ทีมงานจะนำขึ้นแสดงบนหน้าเว็บทันที'); this.reset();">
+      <form id="feedbackForm" onsubmit="handleCustomerReviewSubmit(event)">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
           <div class="form-group">
-            <label>ชื่อของคุณ:</label>
-            <input type="text" required placeholder="เช่น คุณแม่น้อง..." />
+            <label for="reviewAuthor">ชื่อของคุณ:</label>
+            <input type="text" id="reviewAuthor" required placeholder="เช่น คุณแม่น้อง..." />
           </div>
           <div class="form-group">
-            <label>จังหวัด / พื้นที่:</label>
-            <input type="text" placeholder="เช่น กทม., เชียงใหม่" />
+            <label for="reviewLocation">จังหวัด / พื้นที่:</label>
+            <input type="text" id="reviewLocation" placeholder="เช่น กทม., เชียงใหม่" />
           </div>
         </div>
 
         <div class="form-group">
-          <label>คะแนนความพึงพอใจ:</label>
-          <select style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary);">
+          <label for="reviewRating">คะแนนความพึงพอใจ:</label>
+          <select id="reviewRating" style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary);">
             <option value="5">⭐⭐⭐⭐⭐ 5 ดาว - ประทับใจมากที่สุด</option>
             <option value="4">⭐⭐⭐⭐ 4 ดาว - พึงพอใจมาก</option>
             <option value="3">⭐⭐⭐ 3 ดาว - ปานกลาง</option>
@@ -296,16 +296,16 @@
         </div>
 
         <div class="form-group">
-          <label>สินค้าที่ซื้อ:</label>
-          <input type="text" placeholder="เช่น ชุดหมีรอมเปอร์, ชุดเดรสเจ้าหญิง" />
+          <label for="reviewProduct">สินค้าที่ซื้อ:</label>
+          <input type="text" id="reviewProduct" placeholder="เช่น ชุดหมีรอมเปอร์, ชุดเดรสเจ้าหญิง" />
         </div>
 
         <div class="form-group">
-          <label>ข้อความรีวิวของคุณ:</label>
-          <textarea rows="3" required placeholder="บอกเล่าความรู้สึก สัมผัสของเนื้อผ้า การจัดส่ง..."></textarea>
+          <label for="reviewComment">ข้อความรีวิวของคุณ:</label>
+          <textarea id="reviewComment" rows="3" required placeholder="บอกเล่าความรู้สึก สัมผัสของเนื้อผ้า การจัดส่ง..."></textarea>
         </div>
 
-        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px;">
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px;" id="submitReviewBtn">
           <i class="fa-solid fa-paper-plane"></i> ส่งรีวิว
         </button>
       </form>
@@ -434,5 +434,160 @@
   <script src="promptpay.js"></script>
   <script src="products.js"></script>
   <script src="app.js"></script>
+
+  <!-- Interactive Customer Review Script -->
+  <style>
+    @keyframes highlightNewReview {
+      0% { transform: translateY(-12px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .user-new-card {
+      animation: highlightNewReview 0.6s ease-out;
+      border: 1px solid rgba(255, 42, 133, 0.4) !important;
+    }
+  </style>
+  <script>
+    const REVIEWS_STORAGE_KEY = "babypink_customer_reviews";
+
+    // Load saved reviews on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      loadSavedCustomerReviews();
+    });
+
+    function loadSavedCustomerReviews() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(REVIEWS_STORAGE_KEY) || "[]");
+        const grid = document.getElementById("reviewsGrid");
+        if (!grid || !saved.length) return;
+
+        // Render each saved review (in reverse order so first is on top)
+        saved.slice().reverse().forEach(rev => {
+          renderCustomerReviewCard(rev, false);
+        });
+      } catch (err) {
+        console.error("Error loading reviews:", err);
+      }
+    }
+
+    function renderCustomerReviewCard(rev, isNew = false) {
+      const grid = document.getElementById("reviewsGrid");
+      if (!grid) return;
+
+      const card = document.createElement("div");
+      card.className = "review-card" + (isNew ? " user-new-card" : "");
+      card.id = rev.id || ("rev_" + Date.now());
+
+      const initial = (rev.author || "คุณ").charAt(0);
+      const starIcons = Array(Number(rev.rating) || 5).fill('<i class="fa-solid fa-star"></i>').join("");
+
+      card.innerHTML = `
+        <div class="reviewer-header">
+          <div class="reviewer-avatar" style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #ff8fab, #ff2a85); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 700; box-shadow: 0 4px 12px rgba(255,42,133,0.25);">
+            ${initial}
+          </div>
+          <div class="reviewer-info">
+            <h4>${escapeHtml(rev.author)} (${escapeHtml(rev.location || "ผู้ซื้อจริง")}) <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> ${isNew ? 'รีวิวล่าสุด ✨' : 'ผู้ซื้อจริง'}</span></h4>
+            <span class="review-date">${rev.date || "วันนี้"}</span>
+          </div>
+        </div>
+        <div class="review-stars">
+          ${starIcons}
+        </div>
+        <p class="review-body">
+          "${escapeHtml(rev.comment)}"
+        </p>
+        <div class="purchased-tag">
+          <i class="fa-solid fa-bag-shopping" style="color: var(--pink-primary);"></i>
+          <span>ซื้อ: <strong>${escapeHtml(rev.product || "สินค้า BabyPink")}</strong></span>
+        </div>
+      `;
+
+      // Prepend to top of grid
+      grid.insertBefore(card, grid.firstChild);
+    }
+
+    function handleCustomerReviewSubmit(event) {
+      event.preventDefault();
+      const author = document.getElementById("reviewAuthor").value.trim();
+      const location = document.getElementById("reviewLocation").value.trim() || "กทม.";
+      const rating = parseInt(document.getElementById("reviewRating").value) || 5;
+      const product = document.getElementById("reviewProduct").value.trim() || "เสื้อผ้าเด็ก BabyPink";
+      const comment = document.getElementById("reviewComment").value.trim();
+
+      if (!author || !comment) {
+        if (typeof showToast === "function") {
+          showToast("⚠️ กรุณากรอกชื่อและข้อความรีวิวให้ครบถ้วน");
+        }
+        return;
+      }
+
+      const todayTh = new Date().toLocaleDateString("th-TH", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+
+      const newReview = {
+        id: "rev_" + Date.now(),
+        author,
+        location,
+        rating,
+        product,
+        comment,
+        date: todayTh,
+        timestamp: new Date().toISOString()
+      };
+
+      // 1. บันทึกลง LocalStorage
+      try {
+        const saved = JSON.parse(localStorage.getItem(REVIEWS_STORAGE_KEY) || "[]");
+        saved.unshift(newReview);
+        localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(saved));
+      } catch (err) {
+        console.warn("LocalStorage save error:", err);
+      }
+
+      // 2. แสดงผลบนหน้าเว็บทันทีแบบ Real-Time (โผล่ขึ้นด้านบน)
+      renderCustomerReviewCard(newReview, true);
+
+      // 3. แจ้งเตือนและรีเซ็ตฟอร์ม
+      document.getElementById("feedbackForm").reset();
+      if (typeof showToast === "function") {
+        showToast("🎉 ขอบคุณสำหรับรีวิวครับ! ข้อความของคุณแสดงบนหน้าเว็บเรียบร้อยแล้ว");
+      }
+
+      // เลื่อนจอไปดูรีวิวที่เพิ่งส่ง
+      const targetCard = document.getElementById(newReview.id);
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      // 4. ส่งข้อมูลเข้า Google Sheets Webhook (ถ้ามีตั้งค่าไว้)
+      if (typeof GOOGLE_SHEETS_CONFIG !== "undefined" && GOOGLE_SHEETS_CONFIG.webhookUrl) {
+        try {
+          fetch(GOOGLE_SHEETS_CONFIG.webhookUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "review",
+              date: new Date().toLocaleDateString("th-TH", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }),
+              author,
+              location,
+              rating: rating + " ดาว",
+              product,
+              comment
+            })
+          }).catch(e => console.log("Google sheets review sync note:", e));
+        } catch (e) {}
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
 </body>
 </html>

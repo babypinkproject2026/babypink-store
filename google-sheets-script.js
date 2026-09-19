@@ -112,13 +112,64 @@ function doPost(e) {
       sheet = ss.getSheetByName(SHEET_NAME);
     }
 
-    // รับข้อมูลคำสั่งซื้อ JSON จากหน้าเว็บ
+    // รับข้อมูลคำสั่งซื้อหรือรีวิว JSON จากหน้าเว็บ
     let data;
     try {
       data = JSON.parse(e.postData.contents);
     } catch (err) {
       data = e.parameter;
     }
+
+    // ========================================================================
+    // กรณีที่ 1: คำขอส่งรีวิวลูกค้า (Customer Reviews)
+    // ========================================================================
+    if (data.action === "review" || data.type === "review") {
+      const REVIEW_SHEET_NAME = "รีวิวลูกค้า";
+      let reviewSheet = ss.getSheetByName(REVIEW_SHEET_NAME);
+      if (!reviewSheet) {
+        reviewSheet = ss.insertSheet(REVIEW_SHEET_NAME);
+        const reviewHeaders = [
+          "วันที่-เวลา",
+          "ชื่อลูกค้า",
+          "จังหวัด / พื้นที่",
+          "คะแนนความพึงพอใจ",
+          "สินค้าที่ซื้อ",
+          "ข้อความรีวิว"
+        ];
+        const rh = reviewSheet.getRange(1, 1, 1, reviewHeaders.length);
+        rh.setValues([reviewHeaders]);
+        rh.setFontWeight("bold");
+        rh.setBackground("#fdf2f8");
+        rh.setFontColor("#9d174d");
+        rh.setHorizontalAlignment("center");
+        reviewSheet.setRowHeight(1, 35);
+        reviewSheet.setColumnWidth(1, 160);
+        reviewSheet.setColumnWidth(2, 160);
+        reviewSheet.setColumnWidth(3, 140);
+        reviewSheet.setColumnWidth(4, 150);
+        reviewSheet.setColumnWidth(5, 220);
+        reviewSheet.setColumnWidth(6, 380);
+      }
+
+      const rTimestamp = data.date || Utilities.formatDate(new Date(), "Asia/Bangkok", "dd/MM/yyyy HH:mm:ss");
+      reviewSheet.appendRow([
+        rTimestamp,
+        data.author || data.customerName || "-",
+        data.location || "-",
+        data.rating || "5 ดาว",
+        data.product || data.productName || "-",
+        data.comment || "-"
+      ]);
+
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "success",
+        message: "บันทึกรีวิวลูกค้าเข้า Google Sheets เรียบร้อยแล้ว"
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // ========================================================================
+    // กรณีที่ 2: คำสั่งซื้อสินค้า (Orders)
+    // ========================================================================
 
     // แปลงรายการสินค้าให้อ่านง่าย เช่น "ชุดหมีรอมเปอร์ x1 (฿350), ชุดว่ายน้ำ x1 (฿490)"
     let itemsText = "";

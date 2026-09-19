@@ -64,8 +64,8 @@ const PRODUCTS = [
     reviews: 98,
     tag: "ยอดนิยม",
     tagType: "popular",
-    image: "assets/images/product-2.jpg",
-    imageCdn: "assets/images/product-2.jpg",
+    image: "assets/images/product-2.jpg?v=20260919b",
+    imageCdn: "assets/images/product-2.jpg?v=20260919b",
     description: "บอดี้สูทผ้าร่องเกรดพรีเมียม เนื้อผ้ายืดหยุ่นสูง ระบายอากาศได้ดีเยี่ยม เหมาะกับสภาพอากาศเมืองไทย สวมใส่สบาย กระชับคล่องตัว มาพร้อมหมวกบีนนี่เข้าชุดสีชมพูพาสเทล",
     sizes: ["0-3M", "3-6M", "6-12M"],
     colors: [
@@ -88,8 +88,8 @@ const PRODUCTS = [
     reviews: 86,
     tag: "มาใหม่",
     tagType: "new",
-    image: "assets/images/product-3.jpg",
-    imageCdn: "assets/images/product-3.jpg",
+    image: "assets/images/product-3.jpg?v=20260919b",
+    imageCdn: "assets/images/product-3.jpg?v=20260919b",
     description: "เซ็ตเสื้อคอจีนกระดุมกะลาพร้อมกางเกงขาสั้นขอบยางยืด ผลิตจากผ้าฝ้ายผสมลินินธรรมชาติ นุ่มเบา ไม่ร้อน ดีไซน์สไตล์มินิมอลญี่ปุ่น สวมใส่ได้ทั้งเด็กชายและเด็กหญิง",
     sizes: ["6-12M", "1-2Y", "2-3Y", "3-4Y"],
     colors: [
@@ -181,8 +181,8 @@ const PRODUCTS = [
     reviews: 77,
     tag: "Handmade",
     tagType: "highlight",
-    image: "assets/images/product-7.jpg",
-    imageCdn: "assets/images/product-7.jpg",
+    image: "assets/images/product-7.jpg?v=20260919b",
+    imageCdn: "assets/images/product-7.jpg?v=20260919b",
     description: "สเวตเตอร์ไหมพรมเส้นใยนุ่มพิเศษ ไม่ระคายเคืองผิวเด็ก งานถักประณีต อบอุ่นกำลังดี เหมาะสำหรับใส่เดินทางท่องเที่ยวหรือในห้องปรับอากาศ",
     sizes: ["6-12M", "1-2Y", "2-3Y"],
     colors: [
@@ -273,13 +273,13 @@ const PRODUCTS = [
     reviews: 89,
     tag: "สวมใส่ง่าย",
     tagType: "popular",
-    image: "assets/images/product-11.jpg",
-    imageCdn: "assets/images/product-11.jpg",
-    description: "ชุดบอดี้สูทเนื้อผ้ายืดหยุ่นสูง โอบกระชับลำตัวลูกน้อยอย่างอ่อนโยน กระดุมเป้าแบบแป๊กเปลี่ยนผ้าอ้อมสะดวก สีชมพูพาสเทลละมุนตา",
+    image: "assets/images/product-11.jpg?v=20260919b",
+    imageCdn: "assets/images/product-11.jpg?v=20260919b",
+    description: "ชุดบอดี้สูทเนื้อผ้ายืดหยุ่นสูง โอบกระชับลำตัวลูกน้อยอย่างอ่อนโยน กระดุมเป้าแบบแป๊กเปลี่ยนผ้าอ้อมสะดวก ผ้านุ่มใส่สบาย ระบายอากาศดีเยี่ยม",
     sizes: ["0-3M", "3-6M", "6-12M"],
     colors: [
-      { name: "ชมพูซอฟต์", code: "#ffb3c6" },
-      { name: "ฟ้าพาสเทล", code: "#bde0fe" }
+      { name: "ขาวบริสุทธิ์", code: "#ffffff" },
+      { name: "ชมพูซอฟต์", code: "#ffb3c6" }
     ],
     inStock: true,
     features: ["ผ้ายืดหยุ่นสูง", "กระดุมเป้าสะดวก", "ไม่ระคายเคือง"]
@@ -319,8 +319,8 @@ const PRODUCTS = [
     reviews: 173,
     tag: "โปรโมชัน",
     tagType: "sale",
-    image: "assets/images/product-13.jpg",
-    imageCdn: "assets/images/product-13.jpg",
+    image: "assets/images/product-13.jpg?v=20260919b",
+    imageCdn: "assets/images/product-13.jpg?v=20260919b",
     description: "บอดี้สูทแขนสั้นสกรีนข้อความน่ารัก สีพิมพ์ปลอดสารพิษ (Non-toxic) ไม่ระคายเคืองแม้เข้าปาก คอเสื้อแบบ Envelope ขยายง่าย ไม่ติดศีรษะเวลาสวม",
     sizes: ["0-3M", "3-6M", "6-12M", "1-2Y"],
     colors: [

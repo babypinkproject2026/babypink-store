@@ -454,11 +454,14 @@
       }
 
       // 2. ส่งข้อมูลเข้า Google Sheets Webhook
-      const sendPromise = (typeof GOOGLE_SHEETS_CONFIG !== "undefined" && GOOGLE_SHEETS_CONFIG.webhookUrl)
-        ? fetch(GOOGLE_SHEETS_CONFIG.webhookUrl, {
+      const webhookUrl = (typeof GOOGLE_SHEETS_CONFIG !== "undefined" && GOOGLE_SHEETS_CONFIG.webhookUrl)
+        || localStorage.getItem("babypink_sheets_webhook_url");
+
+      const sendPromise = webhookUrl
+        ? fetch(webhookUrl, {
             method: "POST",
             mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify(contactData)
           })
         : Promise.resolve();

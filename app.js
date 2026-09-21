@@ -632,7 +632,7 @@ function handleSlipUpload(event) {
 // ==========================================================================
 const GOOGLE_SHEETS_CONFIG = {
   // ลิงก์ตาราง Google Sheets ของร้าน BabyPink
-  sheetUrl: "https://docs.google.com/spreadsheets/d/1IzP0kcoIMh6zGosyNHgMZ3AqXMtLLrkmKQPPvy6hVyY/edit?gid=338856045#gid=338856045",
+  sheetUrl: "https://docs.google.com/spreadsheets/d/1lzP0kcoIMh6zGosyNHgMZ3AqXMtLLrkmKQPPvy6hVyY/edit?gid=338856045#gid=338856045",
   
   // นำ Web App URL ที่ได้จากการ Deploy Apps Script (ลงท้ายด้วย /exec) มาวางที่นี่
   webhookUrl: "https://script.google.com/macros/s/AKfycbwwLZ2jV1C7uPYeXFL4Q4hkjsFx3626C4Cx58cmAkS7gbsn1OFrYfHH4rfor_twDy0G/exec", 
@@ -649,7 +649,7 @@ const GOOGLE_SHEETS_CONFIG = {
       await fetch(activeUrl, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           orderId: orderData.orderId,
           date: orderData.date,

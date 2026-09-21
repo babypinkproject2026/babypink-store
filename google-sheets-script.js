@@ -1,25 +1,40 @@
 /**
  * ============================================================================
- * Google Apps Script สำหรับรับข้อมูลคำสั่งซื้อจากร้าน BabyPink Store เข้า Google Sheets
+ * Google Apps Script สำหรับร้าน BabyPink Store (เชื่อมต่อ Google Sheets 3 ระบบ)
+ * 1. คำสั่งซื้อสินค้า (Orders)
+ * 2. รีวิวความประทับใจจากลูกค้า (Customer Reviews)
+ * 3. ข้อความติดต่อจากคุณพ่อคุณแม่ (Contact Messages)
  * ============================================================================
  * 
- * วิธีการติดตั้ง (ทำเพียงครั้งเดียว ไม่ถึง 1 นาที):
- * 1. เปิด Google Sheets ขึ้นมา 1 ไฟล์ (เช่น ตั้งชื่อว่า "BabyPink - ฐานข้อมูลคำสั่งซื้อ")
- * 2. ไปที่เมนูด้านบน คลิก "ส่วนขยาย" (Extensions) > "Apps Script"
- * 3. ลบโค้ดเดิมออกทั้งหมด แล้วนำโค้ดในไฟล์นี้ไปวางแทน
- * 4. (ไม่บังคับ) กดเลือกฟังก์ชัน "initialSetup" ด้านบน แล้วกดปุ่ม "เรียกใช้" (Run) เพื่อสร้างหัวตารางและ Dropdown อัตโนมัติ
- * 5. กดปุ่มสีน้ำเงิน "ทำให้ใช้งานได้" (Deploy) > "การทำให้ใช้งานได้รายการใหม่" (New deployment)
- * 6. ตรงรูปเฟืองเลือกประเภท: "เว็บแอป" (Web app)
- *    - คำอธิบาย: BabyPink Order Webhook
- *    - ดำเนินการในฐานะ: ตัวฉัน (Me)
- *    - ผู้ที่มีสิทธิ์เข้าถึง: ทุกคน (Anyone)  <-- *สำคัญมาก ต้องเลือก Anyone*
- * 7. กด "ทำให้ใช้งานได้" (Deploy) และคัดลอก "URL ของเว็บแอป" (Web App URL)
- * 8. นำ URL ที่ได้ มาวางในไฟล์ `app.js` ที่ตัวแปร GOOGLE_SHEETS_CONFIG.webhookUrl
+ * ⚠️ ทำไมเอาโค้ดใหม่ไปวางแล้ว "ไม่เห็นติด" หรือไม่มีอะไรเปลี่ยน?
+ * ใน Google Apps Script การกด "บันทึก" (Ctrl+S) เพียงอย่างเดียว Web App จะ *ยังจำโค้ดเวอร์ชันเก่า* อยู่
+ * คุณต้องทำการอัปเดตเวอร์ชันการเผยแพร่ด้วยตาม 3 ขั้นตอนง่ายๆ ด้านล่างนี้ครับ:
+ * 
+ * ----------------------------------------------------------------------------
+ * 📌 วิธีทำให้โค้ดใหม่ "ติด" และใช้งานได้ 100% (ทำเพียง 1 นาที):
+ * ----------------------------------------------------------------------------
+ * 1. วางโค้ดทั้งหมดนี้แทนที่ใน Apps Script แล้วกดปุ่ม 💾 "บันทึก" (Ctrl + S)
+ * 
+ * 2. [สร้าง 3 แผ่นงานทันที]:
+ *    - ที่เมนูด้านบน มองหาช่องดรอปดาวน์เลือกฟังก์ชัน แล้วเลือก "initialSetup"
+ *    - กดปุ่ม "เรียกใช้" (Run)
+ *    - (หากมีกล่องถามสิทธิ์ ให้กด "ตรวจสอบสิทธิ์" > เลือกอีเมล > ขั้นสูง > ไปที่... > อนุญาต)
+ *    👉 ผลลัพธ์: แท็บ "คำสั่งซื้อ", "รีวิวลูกค้า", และ "ข้อความติดต่อ" จะถูกสร้างขึ้นในชีททันที!
+ * 
+ * 3. [อัปเดต Web App ให้ใช้โค้ดใหม่ - จุดสำคัญที่สุด]:
+ *    - กดปุ่มสีน้ำเงินมุมขวาบน "ทำให้ใช้งานได้" (Deploy) > เลือก "จัดการการทำให้ใช้งานได้" (Manage deployments)
+ *    - ตรงรายการ Web app ให้กดที่รูป ✏️ "แก้ไข" (Edit)
+ *    - ตรงช่อง "เวอร์ชัน" (Version) ให้คลิกแล้วเลือก "เวอร์ชันใหม่" (New version)  <-- *จุดสำคัญที่สุด*
+ *    - ตรวจสอบว่า "ผู้ที่มีสิทธิ์เข้าถึง" (Who has access) เป็น "ทุกคน" (Anyone)
+ *    - กดปุ่ม "ทำให้ใช้งานได้" (Deploy) แล้วกด "เสร็จสิ้น"
+ *    👉 ผลลัพธ์: เว็บไซต์จะเชื่อมต่อกับโค้ดใหม่ทันที โดยไม่ต้องเปลี่ยน Webhook URL เลยครับ!
  * ============================================================================
  */
 
-// ชื่อแผ่นงาน (Sheet Tab Name)
-const SHEET_NAME = "คำสั่งซื้อ";
+// ชื่อแผ่นงานทั้ง 3 ระบบ
+const SHEET_ORDERS = "คำสั่งซื้อ";
+const SHEET_REVIEWS = "รีวิวลูกค้า";
+const SHEET_CONTACT = "ข้อความติดต่อ";
 
 // สถานะการจัดส่ง 4 สถานะตามขั้นตอนจริงของร้าน
 const DELIVERY_STATUSES = [
@@ -29,19 +44,51 @@ const DELIVERY_STATUSES = [
   "จัดส่งสำเร็จ"
 ];
 
+// สถานะการติดต่อกลับ
+const CONTACT_STATUSES = [
+  "🟡 รอติดต่อกลับ",
+  "🟢 ติดต่อแล้ว",
+  "⚪ ปิดการติดต่อ"
+];
+
+// ระดับคะแนนดาวสำหรับรีวิว
+const RATING_LIST = [
+  "5 ดาว ⭐⭐⭐⭐⭐",
+  "4 ดาว ⭐⭐⭐⭐",
+  "3 ดาว ⭐⭐⭐",
+  "2 ดาว ⭐⭐",
+  "1 ดาว ⭐"
+];
+
 /**
- * ฟังก์ชันสร้างหัวตารางและตั้งค่า Dropdown อัตโนมัติ
- * (สามารถกด Run ฟังก์ชันนี้ใน Apps Script ได้เลย)
+ * ============================================================================
+ * ฟังก์ชันสร้างและจัดรูปแบบแผ่นงานทั้ง 3 แท็บอัตโนมัติ (คลิกเดียวได้ครบทุกแท็บ)
+ * ============================================================================
  */
 function initialSetup() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-  
+
+  // 1. ตั้งค่าแผ่นงาน: คำสั่งซื้อ
+  setupOrdersSheet(ss);
+
+  // 2. ตั้งค่าแผ่นงาน: รีวิวลูกค้า
+  setupReviewsSheet(ss);
+
+  // 3. ตั้งค่าแผ่นงาน: ข้อความติดต่อ
+  setupContactSheet(ss);
+
+  Logger.log("✅ ตั้งค่าตาราง BabyPink Store ครบทั้ง 3 แผ่นงานเรียบร้อยแล้ว!");
+}
+
+/**
+ * ตั้งค่าแผ่นงานคำสั่งซื้อ
+ */
+function setupOrdersSheet(ss) {
+  let sheet = ss.getSheetByName(SHEET_ORDERS);
   if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
+    sheet = ss.insertSheet(SHEET_ORDERS);
   }
 
-  // 1. หัวตาราง
   const headers = [
     "วันที่-เวลา",
     "รหัสคำสั่งซื้อ",
@@ -63,23 +110,20 @@ function initialSetup() {
   headerRange.setHorizontalAlignment("center");
   headerRange.setVerticalAlignment("middle");
   sheet.setRowHeight(1, 40);
-
-  // ตรึงแถวที่ 1
   sheet.setFrozenRows(1);
 
-  // ตั้งความกว้างคอลัมน์ให้อ่านง่าย
   sheet.setColumnWidth(1, 150); // วันที่
   sheet.setColumnWidth(2, 130); // Order ID
   sheet.setColumnWidth(3, 160); // ชื่อลูกค้า
   sheet.setColumnWidth(4, 130); // เบอร์โทร
   sheet.setColumnWidth(5, 260); // ที่อยู่
-  sheet.setColumnWidth(6, 300); // รายการสินค้า
+  sheet.setColumnWidth(6, 320); // รายการสินค้า
   sheet.setColumnWidth(7, 130); // ยอดชำระ
-  sheet.setColumnWidth(8, 140); // ช่องทาง
+  sheet.setColumnWidth(8, 150); // ช่องทาง
   sheet.setColumnWidth(9, 160); // สถานะจัดส่ง (Dropdown)
-  sheet.setColumnWidth(10, 150); // สลิป
+  sheet.setColumnWidth(10, 160); // สลิป
 
-  // 2. ตั้งค่า Data Validation (Dropdown) สำหรับคอลัมน์ "สถานะการจัดส่ง" (คอลัมน์ที่ 9 / Column I)
+  // Dropdown สถานะการจัดส่ง (คอลัมน์ I)
   const statusRange = sheet.getRange("I2:I5000");
   const rule = SpreadsheetApp.newDataValidation()
     .requireValueInList(DELIVERY_STATUSES, true)
@@ -87,124 +131,175 @@ function initialSetup() {
     .build();
   statusRange.setDataValidation(rule);
 
-  // จัดรูปแบบกึ่งกลาง
   sheet.getRange("A2:B5000").setHorizontalAlignment("center");
   sheet.getRange("D2:D5000").setHorizontalAlignment("center");
-  sheet.getRange("G2:H5000").setHorizontalAlignment("center");
-  sheet.getRange("I2:I5000").setHorizontalAlignment("center");
-
-  Logger.log("✅ ตั้งค่าตาราง Google Sheets ของ BabyPink สำเร็จเรียบร้อย!");
+  sheet.getRange("G2:I5000").setHorizontalAlignment("center");
 }
 
 /**
- * ฟังก์ชันรองรับคำขอ POST จากหน้าเว็บ BabyPink Store เมื่อลูกค้ากดยืนยันชำระเงิน
+ * ตั้งค่าแผ่นงานรีวิวลูกค้า
+ */
+function setupReviewsSheet(ss) {
+  let sheet = ss.getSheetByName(SHEET_REVIEWS);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_REVIEWS);
+  }
+
+  const headers = [
+    "วันที่-เวลา",
+    "ชื่อลูกค้า",
+    "จังหวัด / พื้นที่",
+    "คะแนนความพึงพอใจ",
+    "สินค้าที่ซื้อ",
+    "ข้อความรีวิว"
+  ];
+
+  const headerRange = sheet.getRange(1, 1, 1, headers.length);
+  headerRange.setValues([headers]);
+  headerRange.setFontWeight("bold");
+  headerRange.setBackground("#f472b6"); // ชมพูกุหลาบหวาน
+  headerRange.setFontColor("#ffffff");
+  headerRange.setHorizontalAlignment("center");
+  headerRange.setVerticalAlignment("middle");
+  sheet.setRowHeight(1, 40);
+  sheet.setFrozenRows(1);
+
+  sheet.setColumnWidth(1, 160); // วันที่
+  sheet.setColumnWidth(2, 160); // ชื่อลูกค้า
+  sheet.setColumnWidth(3, 140); // จังหวัด
+  sheet.setColumnWidth(4, 160); // คะแนนดาว
+  sheet.setColumnWidth(5, 240); // สินค้า
+  sheet.setColumnWidth(6, 400); // ข้อความรีวิว
+
+  // Dropdown คะแนนดาว (คอลัมน์ D)
+  const ratingRange = sheet.getRange("D2:D5000");
+  const rule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(RATING_LIST, true)
+    .setAllowInvalid(true)
+    .build();
+  ratingRange.setDataValidation(rule);
+
+  sheet.getRange("A2:A5000").setHorizontalAlignment("center");
+  sheet.getRange("C2:D5000").setHorizontalAlignment("center");
+}
+
+/**
+ * ตั้งค่าแผ่นงานข้อความติดต่อ
+ */
+function setupContactSheet(ss) {
+  let sheet = ss.getSheetByName(SHEET_CONTACT);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_CONTACT);
+  }
+
+  const headers = [
+    "วันที่-เวลา",
+    "ชื่อคุณพ่อ/คุณแม่",
+    "เบอร์โทรศัพท์",
+    "เรื่องที่สอบถาม",
+    "รายละเอียดข้อความ",
+    "สถานะการติดต่อ"
+  ];
+
+  const headerRange = sheet.getRange(1, 1, 1, headers.length);
+  headerRange.setValues([headers]);
+  headerRange.setFontWeight("bold");
+  headerRange.setBackground("#ec4899"); // ชมพูพีชพรีเมียม
+  headerRange.setFontColor("#ffffff");
+  headerRange.setHorizontalAlignment("center");
+  headerRange.setVerticalAlignment("middle");
+  sheet.setRowHeight(1, 40);
+  sheet.setFrozenRows(1);
+
+  sheet.setColumnWidth(1, 160); // วันที่
+  sheet.setColumnWidth(2, 180); // ชื่อผู้ติดต่อ
+  sheet.setColumnWidth(3, 150); // เบอร์โทร
+  sheet.setColumnWidth(4, 200); // เรื่อง
+  sheet.setColumnWidth(5, 420); // ข้อความ
+  sheet.setColumnWidth(6, 160); // สถานะติดต่อ (Dropdown)
+
+  // Dropdown สถานะการติดต่อ (คอลัมน์ F)
+  const statusRange = sheet.getRange("F2:F5000");
+  const rule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(CONTACT_STATUSES, true)
+    .setAllowInvalid(false)
+    .build();
+  statusRange.setDataValidation(rule);
+
+  sheet.getRange("A2:A5000").setHorizontalAlignment("center");
+  sheet.getRange("C2:C5000").setHorizontalAlignment("center");
+  sheet.getRange("F2:F5000").setHorizontalAlignment("center");
+}
+
+/**
+ * ============================================================================
+ * ฟังก์ชันหลัก doPost(e): รับข้อมูลจากหน้าเว็บส่งเข้าชีทตามประเภท (Order / Review / Contact)
+ * ============================================================================
  */
 function doPost(e) {
   const lock = LockService.getScriptLock();
-  lock.tryLock(10000);
+  lock.tryLock(15000);
 
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    let sheet = ss.getSheetByName(SHEET_NAME);
-    
-    if (!sheet) {
-      initialSetup();
-      sheet = ss.getSheetByName(SHEET_NAME);
-    }
 
-    // รับข้อมูลคำสั่งซื้อหรือรีวิว JSON จากหน้าเว็บ
-    let data;
-    try {
-      data = JSON.parse(e.postData.contents);
-    } catch (err) {
+    // ถอดรหัสข้อมูล JSON หรือ Parameter ที่ส่งมาจากหน้าเว็บ
+    let data = {};
+    if (e && e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (err) {
+        data = e.parameter || {};
+      }
+    } else if (e && e.parameter) {
       data = e.parameter;
     }
+
+    const action = String(data.action || data.type || "").toLowerCase();
 
     // ========================================================================
     // กรณีที่ 1: คำขอส่งรีวิวลูกค้า (Customer Reviews)
     // ========================================================================
-    if (data.action === "review" || data.type === "review") {
-      const REVIEW_SHEET_NAME = "รีวิวลูกค้า";
-      let reviewSheet = ss.getSheetByName(REVIEW_SHEET_NAME);
+    if (action === "review") {
+      let reviewSheet = ss.getSheetByName(SHEET_REVIEWS);
       if (!reviewSheet) {
-        reviewSheet = ss.insertSheet(REVIEW_SHEET_NAME);
-        const reviewHeaders = [
-          "วันที่-เวลา",
-          "ชื่อลูกค้า",
-          "จังหวัด / พื้นที่",
-          "คะแนนความพึงพอใจ",
-          "สินค้าที่ซื้อ",
-          "ข้อความรีวิว"
-        ];
-        const rh = reviewSheet.getRange(1, 1, 1, reviewHeaders.length);
-        rh.setValues([reviewHeaders]);
-        rh.setFontWeight("bold");
-        rh.setBackground("#fdf2f8");
-        rh.setFontColor("#9d174d");
-        rh.setHorizontalAlignment("center");
-        reviewSheet.setRowHeight(1, 35);
-        reviewSheet.setColumnWidth(1, 160);
-        reviewSheet.setColumnWidth(2, 160);
-        reviewSheet.setColumnWidth(3, 140);
-        reviewSheet.setColumnWidth(4, 150);
-        reviewSheet.setColumnWidth(5, 220);
-        reviewSheet.setColumnWidth(6, 380);
+        setupReviewsSheet(ss);
+        reviewSheet = ss.getSheetByName(SHEET_REVIEWS);
       }
 
       const rTimestamp = data.date || Utilities.formatDate(new Date(), "Asia/Bangkok", "dd/MM/yyyy HH:mm:ss");
+      const rRating = String(data.rating || "5 ดาว");
+      const formattedRating = rRating.includes("ดาว") ? rRating : (rRating + " ดาว");
+
       reviewSheet.appendRow([
         rTimestamp,
         data.author || data.customerName || "-",
         data.location || "-",
-        data.rating || "5 ดาว",
+        formattedRating,
         data.product || data.productName || "-",
         data.comment || "-"
       ]);
 
       return ContentService.createTextOutput(JSON.stringify({
         status: "success",
-        message: "บันทึกรีวิวลูกค้าเข้า Google Sheets เรียบร้อยแล้ว"
+        type: "review",
+        message: "บันทึกรีวิวลูกค้าเข้า Google Sheets เรียบร้อยแล้ว",
+        row: reviewSheet.getLastRow()
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
     // ========================================================================
     // กรณีที่ 2: คำขอส่งข้อความติดต่อร้านค้า (Contact Messages)
     // ========================================================================
-    if (data.action === "contact" || data.type === "contact") {
-      let contactSheet = ss.getSheetByName("ข้อความติดต่อ") || ss.getSheetByName("ข้อความถึงร้านค้า") || ss.getSheetByName("ติดต่อเรา");
+    if (action === "contact") {
+      let contactSheet = ss.getSheetByName(SHEET_CONTACT);
       if (!contactSheet) {
-        contactSheet = ss.insertSheet("ข้อความติดต่อ");
-        const contactHeaders = [
-          "วันที่-เวลา",
-          "ชื่อคุณพ่อ/คุณแม่",
-          "เบอร์โทรศัพท์",
-          "เรื่องที่สอบถาม",
-          "รายละเอียดข้อความ",
-          "สถานะการติดต่อ"
-        ];
-        const ch = contactSheet.getRange(1, 1, 1, contactHeaders.length);
-        ch.setValues([contactHeaders]);
-        ch.setFontWeight("bold");
-        ch.setBackground("#fdf2f8");
-        ch.setFontColor("#9d174d");
-        ch.setHorizontalAlignment("center");
-        contactSheet.setRowHeight(1, 35);
-        contactSheet.setColumnWidth(1, 160);
-        contactSheet.setColumnWidth(2, 180);
-        contactSheet.setColumnWidth(3, 150);
-        contactSheet.setColumnWidth(4, 200);
-        contactSheet.setColumnWidth(5, 400);
-        contactSheet.setColumnWidth(6, 150);
-
-        // ตั้ง Dropdown สำหรับสถานะการติดต่อ
-        const statusRule = SpreadsheetApp.newDataValidation()
-          .requireValueInList(["🟡 รอติดต่อกลับ", "🟢 ติดต่อแล้ว", "⚪ ปิดการติดต่อ"], true)
-          .setAllowInvalid(false)
-          .build();
-        contactSheet.getRange("F2:F500").setDataValidation(statusRule);
+        setupContactSheet(ss);
+        contactSheet = ss.getSheetByName(SHEET_CONTACT);
       }
 
       const cTimestamp = data.date || Utilities.formatDate(new Date(), "Asia/Bangkok", "dd/MM/yyyy HH:mm:ss");
+
       contactSheet.appendRow([
         cTimestamp,
         data.name || data.customerName || "-",
@@ -214,17 +309,33 @@ function doPost(e) {
         "🟡 รอติดต่อกลับ"
       ]);
 
+      // กำหนด Dropdown แถวล่าสุด
+      const lastRow = contactSheet.getLastRow();
+      const statusCell = contactSheet.getRange(lastRow, 6);
+      const rule = SpreadsheetApp.newDataValidation()
+        .requireValueInList(CONTACT_STATUSES, true)
+        .setAllowInvalid(false)
+        .build();
+      statusCell.setDataValidation(rule);
+
       return ContentService.createTextOutput(JSON.stringify({
         status: "success",
-        message: "บันทึกข้อความติดต่อเข้า Google Sheets เรียบร้อยแล้ว"
+        type: "contact",
+        message: "บันทึกข้อความติดต่อเข้า Google Sheets เรียบร้อยแล้ว",
+        row: lastRow
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
     // ========================================================================
-    // กรณีที่ 3: คำสั่งซื้อสินค้า (Orders)
+    // กรณีที่ 3: คำสั่งซื้อสินค้า (Orders - ค่าเริ่มต้น)
     // ========================================================================
+    let orderSheet = ss.getSheetByName(SHEET_ORDERS);
+    if (!orderSheet) {
+      setupOrdersSheet(ss);
+      orderSheet = ss.getSheetByName(SHEET_ORDERS);
+    }
 
-    // แปลงรายการสินค้าให้อ่านง่าย เช่น "ชุดหมีรอมเปอร์ x1 (฿350), ชุดว่ายน้ำ x1 (฿490)"
+    // แปลงรายการสินค้า
     let itemsText = "";
     if (Array.isArray(data.items)) {
       itemsText = data.items.map(item => {
@@ -243,11 +354,10 @@ function doPost(e) {
     const customerAddress = data.customerAddress || "-";
     const totalAmount = Number(data.totalAmount) || 0;
     const paymentMethod = data.paymentMethod || "พร้อมเพย์ 093-758-6699";
-    const deliveryStatus = data.deliveryStatus || "รอตรวจสอบยอดเงิน"; // ค่าเริ่มต้น: รอตรวจสอบยอดเงิน
-    const slipUrl = data.slipUrl || (data.hasSlip ? "มีแนบสลิปโอนเงิน" : "-");
+    const deliveryStatus = data.deliveryStatus || "รอตรวจสอบยอดเงิน";
+    const slipUrl = data.slipUrl || (data.hasSlip ? "แนบหลักฐานสลิปแล้ว" : "-");
 
-    // บันทึกลงแถวใหม่
-    sheet.appendRow([
+    orderSheet.appendRow([
       timestamp,
       orderId,
       customerName,
@@ -260,9 +370,9 @@ function doPost(e) {
       slipUrl
     ]);
 
-    // เพิ่ม Dropdown Validation ให้กับแถวล่าสุดที่เพิ่งเพิ่มเข้าไป
-    const lastRow = sheet.getLastRow();
-    const statusCell = sheet.getRange(lastRow, 9);
+    // กำหนด Dropdown สถานะการจัดส่ง
+    const lastRow = orderSheet.getLastRow();
+    const statusCell = orderSheet.getRange(lastRow, 9);
     const rule = SpreadsheetApp.newDataValidation()
       .requireValueInList(DELIVERY_STATUSES, true)
       .setAllowInvalid(false)
@@ -271,6 +381,7 @@ function doPost(e) {
 
     return ContentService.createTextOutput(JSON.stringify({
       status: "success",
+      type: "order",
       message: "บันทึกคำสั่งซื้อลง Google Sheets เรียบร้อยแล้ว",
       orderId: orderId,
       row: lastRow
@@ -289,13 +400,75 @@ function doPost(e) {
 }
 
 /**
- * ฟังก์ชันรองรับคำขอ GET สำหรับตรวจสอบว่า Webhook ยังทำงานปกติ
+ * ฟังก์ชันตรวจสอบสถานะ Webhook (GET)
  */
 function doGet() {
   return ContentService.createTextOutput(JSON.stringify({
     status: "online",
-    service: "BabyPink Store Google Sheets Integration",
-    version: "2.0.0",
+    service: "BabyPink Store Multi-Sheet Integration",
+    version: "2.1.0",
+    supportedActions: ["order", "review", "contact"],
     time: new Date().toISOString()
   })).setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * ============================================================================
+ * ฟังก์ชันทดสอบระบบ (กด Run ใน Apps Script เพื่อลองจำลองข้อมูลได้ทันที)
+ * ============================================================================
+ */
+function testContact() {
+  const fakeEvent = {
+    postData: {
+      contents: JSON.stringify({
+        action: "contact",
+        name: "คุณแม่น้องฟ้าใส (ทดสอบ)",
+        phone: "093-758-6699",
+        topic: "สอบถามไซส์เสื้อผ้า",
+        message: "น้องอายุ 5 เดือน น้ำหนัก 7 กิโล ใส่ไซส์ 3-6M หรือ 6-9M พอดีคะ?"
+      })
+    }
+  };
+  const result = doPost(fakeEvent);
+  Logger.log("ผลการทดสอบส่งข้อความติดต่อ: " + result.getContent());
+}
+
+function testReview() {
+  const fakeEvent = {
+    postData: {
+      contents: JSON.stringify({
+        action: "review",
+        author: "คุณแม่น้องมิลิน (ทดสอบ)",
+        location: "กรุงเทพฯ",
+        rating: "5 ดาว",
+        product: "ชุดรอมเปอร์หมีพาสเทล",
+        comment: "ผ้านุ่มมากกก สีหวานน่ารัก ซักแล้วไม่ย้วยเลยค่ะ แนะนำเลย"
+      })
+    }
+  };
+  const result = doPost(fakeEvent);
+  Logger.log("ผลการทดสอบส่งรีวิว: " + result.getContent());
+}
+
+function testOrder() {
+  const fakeEvent = {
+    postData: {
+      contents: JSON.stringify({
+        action: "order",
+        orderId: "TEST-" + Math.floor(1000 + Math.random() * 9000),
+        customerName: "คุณพ่อน้องโปรด (ทดสอบ)",
+        customerPhone: "089-999-9999",
+        customerAddress: "99/1 ถนนรามอินทรา แขวงคันนายาว เขตคันนายาว กทม.",
+        items: [
+          { name: "ชุดรอมเปอร์ลายปักหมี", size: "3-6M", color: "ชมพู", quantity: 1, price: 350 }
+        ],
+        totalAmount: 350,
+        paymentMethod: "พร้อมเพย์ 093-758-6699",
+        deliveryStatus: "รอตรวจสอบยอดเงิน",
+        slipUrl: "แนบหลักฐานสลิปแล้ว"
+      })
+    }
+  };
+  const result = doPost(fakeEvent);
+  Logger.log("ผลการทดสอบส่งคำสั่งซื้อ: " + result.getContent());
 }

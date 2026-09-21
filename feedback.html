@@ -556,12 +556,15 @@
       }
 
       // 4. ส่งข้อมูลเข้า Google Sheets Webhook (ถ้ามีตั้งค่าไว้)
-      if (typeof GOOGLE_SHEETS_CONFIG !== "undefined" && GOOGLE_SHEETS_CONFIG.webhookUrl) {
+      const webhookUrl = (typeof GOOGLE_SHEETS_CONFIG !== "undefined" && GOOGLE_SHEETS_CONFIG.webhookUrl)
+        || localStorage.getItem("babypink_sheets_webhook_url");
+
+      if (webhookUrl) {
         try {
-          fetch(GOOGLE_SHEETS_CONFIG.webhookUrl, {
+          fetch(webhookUrl, {
             method: "POST",
             mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
               action: "review",
               date: new Date().toLocaleDateString("th-TH", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }),

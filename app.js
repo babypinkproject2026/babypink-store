@@ -822,9 +822,19 @@ function updateAuthUI() {
     userText.textContent = SupabaseService.currentUser.name;
     userAvatar.src = SupabaseService.currentUser.avatar;
     userAvatar.style.display = "block";
+
+    // อัปเดต URL ให้มี #login ต่อท้ายเมื่อเข้าสู่ระบบแล้ว
+    if (!window.location.hash.includes("admin") && window.location.hash !== "#login") {
+      history.replaceState(null, "", window.location.pathname + window.location.search + "#login");
+    }
   } else {
     userText.textContent = "เข้าสู่ระบบ";
     userAvatar.style.display = "none";
+
+    // เมื่อไม่ได้เข้าสู่ระบบหรือออกจากระบบ เคลียร์ #login ออก
+    if (window.location.hash === "#login") {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
   }
 }
 

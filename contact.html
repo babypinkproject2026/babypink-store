@@ -443,13 +443,9 @@
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังส่งข้อความ...';
       }
 
-      const todayTh = new Date().toLocaleDateString("th-TH", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
+      const pad = n => String(n).padStart(2, "0");
+      const now = new Date();
+      const formattedDate = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
       const contactData = {
         action: "contact",
@@ -457,8 +453,8 @@
         phone,
         topic,
         message: msg,
-        date: todayTh,
-        timestamp: new Date().toISOString()
+        date: formattedDate,
+        timestamp: now.toISOString()
       };
 
       // 1. บันทึกลง LocalStorage

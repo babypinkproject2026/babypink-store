@@ -753,7 +753,7 @@ async function confirmPayment() {
 
   const now = new Date();
   const pad = num => String(num).padStart(2, "0");
-  const formattedDate = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  const formattedDate = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
   const orderData = {
     orderId: orderId,

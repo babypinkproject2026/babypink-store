@@ -202,6 +202,11 @@ function renderTopProducts() {
 function filterProducts() {
   let list = [...AppState.products];
 
+  // ซ่อนสินค้าทดสอบจากลูกค้าทั่วไป (แสดงเฉพาะสินค้าจริง)
+  if (!adminUnlocked) {
+    list = list.filter(p => !p.isTest && p.id !== 99);
+  }
+
   // หมวดหมู่
   if (AppState.selectedCategory !== "all") {
     list = list.filter(p => p.category === AppState.selectedCategory);

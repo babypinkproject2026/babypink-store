@@ -823,12 +823,69 @@ function updateAuthUI() {
   }
 }
 
+// ==========================================================================
+// Secret Admin Controller (ซ่อนหลังบ้านเป็นความลับ รู้เฉพาะทีมงาน)
+// ==========================================================================
+let adminUnlocked = sessionStorage.getItem("bp_admin_unlocked") === "true";
+
+if (window.location.hash.includes("admin") || window.location.search.includes("admin")) {
+  adminUnlocked = true;
+  sessionStorage.setItem("bp_admin_unlocked", "true");
+}
+
+function toggleAdminMenu(force) {
+  adminUnlocked = force !== undefined ? force : !adminUnlocked;
+  sessionStorage.setItem("bp_admin_unlocked", adminUnlocked ? "true" : "false");
+  const el = document.getElementById("adminMenuSection");
+  if (el) {
+    el.style.display = adminUnlocked ? "block" : "none";
+  }
+  if (typeof showToast === "function") {
+    showToast(adminUnlocked ? "🔓 ปลดล็อกเมนูลับหลังบ้าน (Admin)" : "🔒 ซ่อนเมนูหลังบ้านเรียบร้อย");
+  }
+}
+
+let avatarClickCount = 0;
+let avatarClickTimer = null;
+function handleAvatarSecretClick() {
+  avatarClickCount++;
+  clearTimeout(avatarClickTimer);
+  if (avatarClickCount >= 3) {
+    avatarClickCount = 0;
+    toggleAdminMenu();
+  } else {
+    avatarClickTimer = setTimeout(() => {
+      avatarClickCount = 0;
+    }, 600);
+  }
+}
+
+window.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.shiftKey && (e.key === "A" || e.key === "a")) {
+    e.preventDefault();
+    toggleAdminMenu();
+  }
+});
+
 function openAuthModal() {
   if (SupabaseService.currentUser) {
     // หากล็อกอินอยู่แล้ว เปิดหน้าโปรไฟล์
     document.getElementById("profileUserName").textContent = SupabaseService.currentUser.name;
     document.getElementById("profileUserEmail").textContent = SupabaseService.currentUser.email;
-    document.getElementById("profileUserAvatar").src = SupabaseService.currentUser.avatar;
+    
+    const avatarEl = document.getElementById("profileUserAvatar");
+    if (avatarEl) {
+      avatarEl.src = SupabaseService.currentUser.avatar;
+      avatarEl.onclick = handleAvatarSecretClick;
+      avatarEl.style.cursor = "pointer";
+    }
+
+    // เมนูหลังบ้าน: ซ่อนจากคนนอกเสมอ ยกเว้นจะปลดล็อกด้วยความลับ
+    const adminEl = document.getElementById("adminMenuSection");
+    if (adminEl) {
+      adminEl.style.display = adminUnlocked ? "block" : "none";
+    }
+
     document.getElementById("userProfileModal").classList.add("active");
   } else {
     // หากยังไม่ล็อกอิน เปิดหน้าเลือกเข้าสู่ระบบ
@@ -849,6 +906,11 @@ async function handleGoogleLogin() {
 }
 
 async function handleLogout() {
+  adminUnlocked = false;
+  sessionStorage.removeItem("bp_admin_unlocked");
+  const adminEl = document.getElementById("adminMenuSection");
+  if (adminEl) adminEl.style.display = "none";
+
   await SupabaseService.signOut();
   closeModal("userProfileModal");
   updateAuthUI();

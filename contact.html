@@ -318,14 +318,15 @@
       <h3 id="profileUserName" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">User Name</h3>
       <p id="profileUserEmail" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">user@example.com</p>
 
-      <!-- เมนูจัดการสำหรับเจ้าของร้าน/แอดมิน -->
-      <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-input); border-radius: var(--radius-sm); font-size: 0.82rem; text-align: left; border: 1px solid var(--border-subtle);">
-        <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
-          <i class="fa-solid fa-gears" style="color: var(--pink-primary);"></i> สำหรับแอดมินร้านค้า (Admin)
+      <!-- เมนูจัดการสำหรับเจ้าของร้าน/แอดมิน (ซ่อนเป็นความลับ รู้เฉพาะคนทำ) -->
+      <div id="adminMenuSection" style="display: none; margin-bottom: 16px; padding: 12px; background: rgba(255, 42, 133, 0.08); border-radius: var(--radius-sm); font-size: 0.82rem; text-align: left; border: 1px dashed var(--pink-primary);">
+        <div style="font-weight: 600; margin-bottom: 8px; color: var(--pink-primary); display: flex; align-items: center; justify-content: space-between;">
+          <span><i class="fa-solid fa-user-shield"></i> เมนูลับเฉพาะทีมงาน (Admin)</span>
+          <span style="font-size: 0.7rem; opacity: 0.7;">🔒 Secret</span>
         </div>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <a href="https://docs.google.com/spreadsheets/d/1lzP0kcoIMh6zGosyNHgMZ3AqXMtLLrkmKQPPvy6hVyY/edit?gid=897367309#gid=897367309" target="_blank" style="color: #10b981; text-decoration: none; display: flex; align-items: center; gap: 6px; font-weight: 600;">
-            <i class="fa-solid fa-table"></i> เปิดดูตาราง Google Sheets (คำสั่งซื้อ / รีวิว / ติดต่อ)
+            <i class="fa-solid fa-table"></i> เปิดดูตาราง Google Sheets หลังบ้าน
           </a>
           <a href="javascript:void(0)" onclick="setGoogleSheetsWebhook()" style="color: var(--pink-primary); text-decoration: none; display: flex; align-items: center; gap: 6px;">
             <i class="fa-solid fa-link"></i> ตั้งค่า Google Sheets Webhook URL

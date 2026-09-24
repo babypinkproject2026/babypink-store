@@ -640,7 +640,7 @@ const GOOGLE_SHEETS_CONFIG = {
   sheetUrl: "https://docs.google.com/spreadsheets/d/1lzP0kcoIMh6zGosyNHgMZ3AqXMtLLrkmKQPPvy6hVyY/edit?gid=338856045#gid=338856045",
   
   // นำ Web App URL ที่ได้จากการ Deploy Apps Script (ลงท้ายด้วย /exec) มาวางที่นี่
-  webhookUrl: "https://script.google.com/macros/s/AKfycbwwLZ2jV1C7uPYeXFL4Q4hkjsFx3626C4Cx58cmAkS7gbsn1OFrYfHH4rfor_twDy0G/exec", 
+  webhookUrl: "https://script.google.com/macros/s/AKfycbygr-2JetqFVTg8Qpo64kWNy8Y1C-GNKKtfQmU1zmVB8JCE70hS2gnq4Ip0wwathrj8/exec", 
 
   async syncToGoogleSheets(orderData) {
     const activeUrl = this.webhookUrl || localStorage.getItem("babypink_sheets_webhook_url");
@@ -676,6 +676,14 @@ const GOOGLE_SHEETS_CONFIG = {
     }
   }
 };
+
+// ล้าง Webhook URL เก่าใน LocalStorage ถ้าตรงกับเวอร์ชัน 2.0.0 เพื่อให้ชี้มาที่ v2.3.0 ใหม่ล่าสุดอัตโนมัติ
+try {
+  const cachedUrl = localStorage.getItem("babypink_sheets_webhook_url");
+  if (cachedUrl && cachedUrl.includes("AKfycbwwLZ2jV1C7uPYeXFL4Q4hkjsFx3626C4Cx58cmAkS7gbsn1OFrYfHH4rfor_twDy0G")) {
+    localStorage.removeItem("babypink_sheets_webhook_url");
+  }
+} catch (e) {}
 
 function setGoogleSheetsWebhook() {
   const current = localStorage.getItem("babypink_sheets_webhook_url") || GOOGLE_SHEETS_CONFIG.webhookUrl || "";

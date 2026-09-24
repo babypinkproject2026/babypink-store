@@ -651,6 +651,7 @@ const GOOGLE_SHEETS_CONFIG = {
         mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
+          action: "order",
           orderId: orderData.orderId,
           date: orderData.date,
           customerName: orderData.customerName,

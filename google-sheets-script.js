@@ -268,8 +268,11 @@ function doPost(e) {
       }
 
       const rTimestamp = data.date || Utilities.formatDate(new Date(), "Asia/Bangkok", "dd/MM/yyyy HH:mm:ss");
-      const rRating = String(data.rating || "5 ดาว");
-      const formattedRating = rRating.includes("ดาว") ? rRating : (rRating + " ดาว");
+      const rRating = String(data.rating || "5");
+      const starMatch = rRating.match(/(\d+)/);
+      const starCount = starMatch ? parseInt(starMatch[1], 10) : 5;
+      const validStar = Math.min(Math.max(starCount, 1), 5);
+      const formattedRating = `${validStar} ดาว ${"⭐".repeat(validStar)}`;
 
       reviewSheet.appendRow([
         rTimestamp,
@@ -406,7 +409,7 @@ function doGet() {
   return ContentService.createTextOutput(JSON.stringify({
     status: "online",
     service: "BabyPink Store Multi-Sheet Integration",
-    version: "2.1.0",
+    version: "2.2.0",
     supportedActions: ["order", "review", "contact"],
     time: new Date().toISOString()
   })).setMimeType(ContentService.MimeType.JSON);

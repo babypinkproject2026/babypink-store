@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.orders (
     customer_address TEXT,
     items JSONB NOT NULL,
     total_amount NUMERIC(10, 2) NOT NULL,
-    payment_method VARCHAR(100) DEFAULT 'PromptPay พร้อมเพย์ (093-758-6699)',
+    payment_method VARCHAR(100) DEFAULT 'PromptPay พร้อมเพย์ (062-996-6758 นุชรัตน์ ศรีปัญญา)',
     payment_status VARCHAR(50) DEFAULT 'pending_verify',
     delivery_status VARCHAR(50) DEFAULT 'รอตรวจสอบยอดเงิน',
     slip_url TEXT,

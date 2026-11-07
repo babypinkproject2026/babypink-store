@@ -91,8 +91,8 @@ const SupabaseService = {
         console.warn("ℹ️ Supabase Google OAuth Provider ยังไม่ได้ผูก Google Cloud Console Client ID จึงสลับเข้าสู่โหมดสมาชิกลูกค้าอัตโนมัติ:", error.message);
         const customerUser = {
           id: "google-user-" + Math.floor(100000 + Math.random() * 900000),
-          name: "คุณแม่น้องฟ้าใส (Google Account)",
-          email: "babypink.customer@gmail.com",
+          name: "นุชรัตน์ ศรีปัญญา (Google Account)",
+          email: "babypink.project2026@gmail.com",
           avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=faces",
           provider: "google"
         };
@@ -103,8 +103,8 @@ const SupabaseService = {
     } else {
       const demoUser = {
         id: "demo-" + Date.now(),
-        name: "คุณแม่น้องฟ้าใส (Google Demo)",
-        email: "babypink.customer@gmail.com",
+        name: "นุชรัตน์ ศรีปัญญา (Google Demo)",
+        email: "babypink.project2026@gmail.com",
         avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=faces",
         provider: "google"
       };

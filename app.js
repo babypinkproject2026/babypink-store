@@ -14,7 +14,8 @@ const AppState = {
   wishlist: JSON.parse(localStorage.getItem("baby_store_wishlist") || "[]"),
   discountRate: 0,
   activeCoupon: null,
-  promptpayTarget: "0937586699", // เบอร์พร้อมเพย์รับเงินของร้านค้า (แก้ไขเฉพาะในโค้ดหรือระบบหลังบ้านเท่านั้น)
+  promptpayTarget: "0629966758", // เบอร์พร้อมเพย์รับเงินของร้านค้า (แก้ไขเฉพาะในโค้ดหรือระบบหลังบ้านเท่านั้น)
+  promptpayAccountName: "นุชรัตน์ ศรีปัญญา", // ชื่อบัญชีพร้อมเพย์รับเงิน
   theme: localStorage.getItem("baby_store_theme") || "dark",
   currentQuickView: null
 };
@@ -571,8 +572,10 @@ function generateAndDisplayPromptPayQR(amount) {
   PromptPay.renderQR(canvas, payload, { size: 240, color: "#001a33" });
 
   const info = PromptPay.formatTarget(target);
+  const accountName = AppState.promptpayAccountName || "นุชรัตน์ ศรีปัญญา";
   document.getElementById("promptpayRecipient").innerHTML = `
     โอนเข้าบัญชีพร้อมเพย์: <strong style="color: var(--pink-primary); font-family: monospace;">${info.display}</strong>
+    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">ชื่อบัญชี: <strong style="color: var(--text-primary);">${accountName}</strong></div>
   `;
 }
 
@@ -664,7 +667,7 @@ const GOOGLE_SHEETS_CONFIG = {
           customerAddress: orderData.customerAddress,
           items: orderData.items,
           totalAmount: orderData.totalAmount,
-          paymentMethod: orderData.paymentMethod || "พร้อมเพย์ 093-758-6699",
+          paymentMethod: orderData.paymentMethod || "พร้อมเพย์ 062-996-6758 (นุชรัตน์ ศรีปัญญา)",
           deliveryStatus: orderData.deliveryStatus || "รอตรวจสอบยอดเงิน",
           slipUrl: orderData.slipUrl || (orderData.hasSlip ? "แนบหลักฐานสลิปแล้ว" : "-")
         })
@@ -767,7 +770,7 @@ async function confirmPayment() {
     slipUrl: slipUrl,
     paymentStatus: "pending_verify", // สถานะการเงิน: รอตรวจสอบสลิป
     deliveryStatus: "รอตรวจสอบยอดเงิน", // สถานะการจัดส่ง: รอตรวจสอบยอดเงิน
-    paymentMethod: "PromptPay พร้อมเพย์ (093-758-6699)",
+    paymentMethod: "PromptPay พร้อมเพย์ (062-996-6758 นุชรัตน์ ศรีปัญญา)",
     date: formattedDate
   };
 

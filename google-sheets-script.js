@@ -356,7 +356,7 @@ function doPost(e) {
     const customerPhone = data.customerPhone || "-";
     const customerAddress = data.customerAddress || "-";
     const totalAmount = Number(data.totalAmount) || 0;
-    const paymentMethod = data.paymentMethod || "พร้อมเพย์ 093-758-6699";
+    const paymentMethod = data.paymentMethod || "พร้อมเพย์ 062-996-6758 (นุชรัตน์ ศรีปัญญา)";
     const deliveryStatus = data.deliveryStatus || "รอตรวจสอบยอดเงิน";
     const slipUrl = data.slipUrl || (data.hasSlip ? "แนบหลักฐานสลิปแล้ว" : "-");
 
@@ -426,7 +426,7 @@ function testContact() {
       contents: JSON.stringify({
         action: "contact",
         name: "คุณแม่น้องฟ้าใส (ทดสอบ)",
-        phone: "093-758-6699",
+        phone: "062-996-6758",
         topic: "สอบถามไซส์เสื้อผ้า",
         message: "น้องอายุ 5 เดือน น้ำหนัก 7 กิโล ใส่ไซส์ 3-6M หรือ 6-9M พอดีคะ?"
       })
@@ -466,7 +466,7 @@ function testOrder() {
           { name: "ชุดรอมเปอร์ลายปักหมี", size: "3-6M", color: "ชมพู", quantity: 1, price: 350 }
         ],
         totalAmount: 350,
-        paymentMethod: "พร้อมเพย์ 093-758-6699",
+        paymentMethod: "พร้อมเพย์ 062-996-6758 (นุชรัตน์ ศรีปัญญา)",
         deliveryStatus: "รอตรวจสอบยอดเงิน",
         slipUrl: "แนบหลักฐานสลิปแล้ว"
       })
